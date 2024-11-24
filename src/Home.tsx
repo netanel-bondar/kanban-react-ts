@@ -1,65 +1,90 @@
 import React from "react";
 
-function Home() {
+function ToggleButton() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          Brand
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto">
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Workspace
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Recent
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Starred
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Templates
-              </a>
-            </li>
-            <li>
-              <button className="btn btn-primary" type="button">
-                Create
-              </button>
-            </li>
-          </ul>
+    <button
+      className="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+    >
+      <span className="navbar-toggler-icon"></span>
+    </button>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-dark text-white py-4 mt-auto">
+      <div className="container">
+        <div className="row">
+          {/* Column 1: About */}
+          <div className="col-md-6">
+            <h5 className="text-center">About Us</h5>
+            <p>
+              We are a leading company providing top-notch solutions to help
+              businesses succeed in the digital era.
+            </p>
+          </div>
+
+          {/* Column 2: Links */}
+          <div className="text-center col-md-6">
+            <h5>Quick Links</h5>
+            <ul className="list-unstyled">
+              <li>
+                <a href="#" className="text-white text-decoration-none">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-white text-decoration-none">
+                  Settings
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-white text-decoration-none">
+                  Profile
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Footer Bottom */}
+        <div className="text-center mt-4">
+          <p className="mb-0">
+            &copy; Netanel Bondar & Tzofiya Rozen. All rights reserved.
+          </p>
         </div>
       </div>
-      <form className="form-inline">
-        <input
-          className="form-control mr-sm-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
-        </button>
-      </form>
-    </nav>
+    </footer>
+  );
+}
+
+function Home() {
+  return (
+    <>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="/">
+            Home
+          </a>
+          <ToggleButton />
+          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div className="navbar-nav">
+              <a className="nav-link" href="#">
+                Settings
+              </a>
+              <a className="nav-link" href="#">
+                Profile
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <Footer />
+    </>
   );
 }
 
