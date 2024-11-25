@@ -64,38 +64,10 @@ function Footer() {
 }
 
 
-
-
-function BoardComponent1(props) {
-  const { title, subtitle, href} = props;
+function BoardComponent(props) {
+  const { title, imageUrl, href} = props;
   return (
-    <a href={href} className="card border-dark mb-3" style={{ maxWidth: "18rem" }}>
-      <div className="card-header">{title}</div>
-      <div className="card-body text-dark">
-        <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>
-      </div>
-    </a>
-  );
-}
-
-
-function BoardComponent2(props) {
-  const { title, subtitle} = props;
-  return (
-    <div className="card" style={{ width: '18rem' }}>
-      <div className="card-body">
-        <h5 className="card-title">{title}</h5>
-        <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>
-      </div>
-    </div>
-  );
-}
-
-
-function BoardComponent3(props) {
-  const { title, imageUrl} = props;
-  return (
-   <div className="card bg-dark text-white" style={{ 
+  <a href={href} className="card bg-dark text-white" style={{ 
     maxWidth: '250px',
     height: '150px', 
     margin: '1rem',     
@@ -113,7 +85,7 @@ function BoardComponent3(props) {
   <div className="card-img-overlay">
     <h5 className="card-title">{title}</h5>
   </div>
-</div>
+</a>
   );
 }
 
@@ -141,20 +113,12 @@ function Home() {
         </div>
       </nav>
 
-      <BoardComponent1
-  title="Board title"
-  subtitle="Board subtitle"
-  href="#"
-/>
 
-<BoardComponent2
-  title="Board title"
-  subtitle="Board subtitle"
-/>
 
-<BoardComponent3
+<BoardComponent
   title="Board title"
   imageUrl={boardImage}
+  href="#"
 />
 
       <Footer />
