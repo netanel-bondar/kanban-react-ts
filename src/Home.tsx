@@ -1,6 +1,4 @@
 import React from "react";
-import boardImage from './assets/images/BoardComponent3.jpg';
-
 
 function ToggleButton() {
   return (
@@ -63,61 +61,54 @@ function Footer() {
   );
 }
 
-
-
-
-function BoardComponent1(props) {
-  const { title, subtitle, href} = props;
-  return (
-    <a href={href} className="card border-dark mb-3" style={{ maxWidth: "18rem" }}>
-      <div className="card-header">{title}</div>
-      <div className="card-body text-dark">
-        <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>
-      </div>
-    </a>
-  );
+interface Board {
+  title: string;
+  imageUrl: string;
 }
 
+const boarsdArray: Board[] = [
+  { title: "Board 1", imageUrl: "src\\assets\\images\\BoardComponent3.jpg" },
+  { title: "Board 2", imageUrl: "src\\assets\\images\\designhexagon.jpg" },
+  { title: "Board 3", imageUrl: "src\\assets\\images\\images.jpg" },
+  { title: "Board 4", imageUrl: "src\\assets\\images\\images.jpg" },
+];
 
-function BoardComponent2(props) {
-  const { title, subtitle} = props;
+interface BoardsProps {
+  boards: Board[];
+}
+
+function Boards({ boards }: BoardsProps) {
   return (
-    <div className="card" style={{ width: '18rem' }}>
-      <div className="card-body">
-        <h5 className="card-title">{title}</h5>
-        <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>
+    <div className="container">
+      <div className="row">
+        {boards.map((board) => (
+          <div className="col-4">
+            <div
+              className="card bg-dark text-white"
+              style={{
+                maxWidth: "250px",
+                height: "150px",
+                margin: "1rem",
+                borderRadius: "8px",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              }}
+            >
+              <img
+                className="card-img"
+                src={board.imageUrl}
+                alt="Card image"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+              <div className="card-img-overlay">
+                <h5 className="card-title">{board.title}</h5>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
-
-
-function BoardComponent3(props) {
-  const { title, imageUrl} = props;
-  return (
-   <div className="card bg-dark text-white" style={{ 
-    maxWidth: '250px',
-    height: '150px', 
-    margin: '1rem',     
-    borderRadius: '8px', 
-    boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
-  }}>
-  <img 
-        className="card-img" 
-        src={imageUrl} 
-        alt="Card image"
-        style={{width: '100%',
-          height: '100%',
-          objectFit: 'cover',  }}
-      />
-  <div className="card-img-overlay">
-    <h5 className="card-title">{title}</h5>
-  </div>
-</div>
-  );
-}
-
-
 
 function Home() {
   return (
@@ -141,32 +132,11 @@ function Home() {
         </div>
       </nav>
 
-      <BoardComponent1
-  title="Board title"
-  subtitle="Board subtitle"
-  href="#"
-/>
-
-<BoardComponent2
-  title="Board title"
-  subtitle="Board subtitle"
-/>
-
-<BoardComponent3
-  title="Board title"
-  imageUrl={boardImage}
-/>
+      <Boards boards={boarsdArray} />
 
       <Footer />
     </>
   );
 }
-
-
-
-
-
-
-
 
 export default Home;
