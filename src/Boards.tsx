@@ -53,21 +53,29 @@ export function Boards() {
 
   return (
     <div className="container">
-      <button
-        className="btn btn-primary ms-3 mt-3"
-        onClick={() => {
-          setBoardsArray([
-            ...boardsArray,
-            {
-              id: uuidv4(),
-              title: `Board ${boardsArray.length + 1}`,
-              imageUrl: "images/designhexagon.jpg",
-            },
-          ]);
-        }}
-      >
-        New Board
-      </button>
+      <div className="d-flex align-items-center">
+        <button
+          className="btn btn-primary ms-3"
+          onClick={() => {
+            setBoardsArray([
+              ...boardsArray,
+              {
+                id: uuidv4(),
+                title: `Board ${boardsArray.length + 1}`,
+                imageUrl: "images/designhexagon.jpg",
+              },
+            ]);
+          }}
+        >
+          New Board
+        </button>
+
+        <input
+          className="form-control w-25 ms-auto me-3"
+          type="text"
+          placeholder="Search Board"
+        />
+      </div>
 
       <div className="row">
         <BoardsHTMLGenerator boards={boardsArray} />
