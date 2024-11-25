@@ -46,7 +46,7 @@ export function Boards() {
   const initBoardsArray: Board[] = Array.from({ length: 7 }, (_, index) => ({
     id: uuidv4(),
     title: `Board ${index + 1}`,
-    imageUrl: "src\\assets\\images\\designhexagon.jpg",
+    imageUrl: "images/designhexagon.jpg",
   }));
 
   const [boardsArray, setBoardsArray] = useState<Board[]>(initBoardsArray);
@@ -61,7 +61,7 @@ export function Boards() {
             {
               id: uuidv4(),
               title: `Board ${boardsArray.length + 1}`,
-              imageUrl: "src\\assets\\images\\designhexagon.jpg",
+              imageUrl: "images/designhexagon.jpg",
             },
           ]);
         }}
