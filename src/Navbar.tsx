@@ -1,5 +1,3 @@
-import { Boards } from "./Boards";
-
 function ToggleButton() {
   return (
     <button

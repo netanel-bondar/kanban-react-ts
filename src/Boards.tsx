@@ -9,12 +9,17 @@ interface Board {
 
 interface BoardsProps {
   boards: Board[];
+  searchBoard: string;
 }
 
-function BoardsHTMLGenerator({ boards }: BoardsProps) {
+function BoardsHTMLGenerator({ boards, searchBoard }: BoardsProps) {
+  const filteredBoards = boards.filter((board) => {
+    return board.title.toLowerCase().includes(searchBoard.toLowerCase());
+  });
+
   return (
     <>
-      {boards.map((board) => (
+      {filteredBoards.map((board) => (
         <div className="col-xs-12 col-sm-6 col-md-4 col-xl-2" key={board.id}>
           <div
             className="card bg-dark text-white"
@@ -51,6 +56,8 @@ export function Boards() {
 
   const [boardsArray, setBoardsArray] = useState<Board[]>(initBoardsArray);
 
+  const [searchBoard, setSearchBoard] = useState<string>("");
+
   return (
     <div className="container">
       <div className="d-flex align-items-center">
@@ -74,11 +81,13 @@ export function Boards() {
           className="form-control w-25 ms-auto me-3"
           type="text"
           placeholder="Search Board"
+          value={searchBoard}
+          onChange={(e) => setSearchBoard(e.target.value)}
         />
       </div>
 
       <div className="row">
-        <BoardsHTMLGenerator boards={boardsArray} />
+        <BoardsHTMLGenerator boards={boardsArray} searchBoard={searchBoard} />
       </div>
     </div>
   );
