@@ -67,14 +67,14 @@ function Footer() {
 
 
 function BoardComponent1(props) {
-  const { title, subtitle} = props;
+  const { title, subtitle, href} = props;
   return (
-<div className="card border-dark mb-3" style={{ maxWidth: "18rem" }}>
-  <div className="card-header">{title}</div>
-  <div className="card-body text-dark">
-    <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>
-  </div>
-</div>
+    <a href={href} className="card border-dark mb-3" style={{ maxWidth: "18rem" }}>
+      <div className="card-header">{title}</div>
+      <div className="card-body text-dark">
+        <h6 className="card-subtitle mb-2 text-muted">{subtitle}</h6>
+      </div>
+    </a>
   );
 }
 
@@ -144,6 +144,7 @@ function Home() {
       <BoardComponent1
   title="Board title"
   subtitle="Board subtitle"
+  href="#"
 />
 
 <BoardComponent2
