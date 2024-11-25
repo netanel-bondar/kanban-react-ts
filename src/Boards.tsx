@@ -60,7 +60,7 @@ export function Boards() {
 
   return (
     <div className="container">
-      <div className="d-flex align-items-center">
+      <div className="d-flex">
         <button
           className="btn btn-primary ms-3"
           onClick={() => {
