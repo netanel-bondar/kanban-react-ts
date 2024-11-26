@@ -47,6 +47,35 @@ function BoardsHTMLGenerator({ boards, searchBoard }: BoardsProps) {
   );
 }
 
+interface NewBoardButtonProps {
+  newBoardFunc: () => void;
+}
+
+function NewBoardButton({ newBoardFunc }: NewBoardButtonProps) {
+  return (
+    <button className="btn btn-primary ms-3" onClick={newBoardFunc}>
+      New Board
+    </button>
+  );
+}
+
+interface SearchboxProps {
+  searchBoardValue: string;
+  searchBoardFunc: (value: string) => void;
+}
+
+function Searchbox({ searchBoardValue, searchBoardFunc }: SearchboxProps) {
+  return (
+    <input
+      className="form-control w-25 ms-auto me-3"
+      type="text"
+      placeholder="Search Board"
+      value={searchBoardValue}
+      onChange={(e) => searchBoardFunc(e.target.value)}
+    />
+  );
+}
+
 export function Boards() {
   const initBoardsArray: Board[] = Array.from({ length: 7 }, (_, index) => ({
     id: uuidv4(),
@@ -56,33 +85,31 @@ export function Boards() {
 
   const [boardsArray, setBoardsArray] = useState<Board[]>(initBoardsArray);
 
+  const newBoardFunc = () => {
+    setBoardsArray([
+      ...boardsArray,
+      {
+        id: uuidv4(),
+        title: `Board ${boardsArray.length + 1}`,
+        imageUrl: "images/designhexagon.jpg",
+      },
+    ]);
+  };
+
   const [searchBoard, setSearchBoard] = useState<string>("");
+
+  const searchBoardFunc = (value: string) => {
+    setSearchBoard(value);
+  };
 
   return (
     <div className="container">
       <div className="d-flex">
-        <button
-          className="btn btn-primary ms-3"
-          onClick={() => {
-            setBoardsArray([
-              ...boardsArray,
-              {
-                id: uuidv4(),
-                title: `Board ${boardsArray.length + 1}`,
-                imageUrl: "images/designhexagon.jpg",
-              },
-            ]);
-          }}
-        >
-          New Board
-        </button>
+        <NewBoardButton newBoardFunc={newBoardFunc} />
 
-        <input
-          className="form-control w-25 ms-auto me-3"
-          type="text"
-          placeholder="Search Board"
-          value={searchBoard}
-          onChange={(e) => setSearchBoard(e.target.value)}
+        <Searchbox
+          searchBoardValue={searchBoard}
+          searchBoardFunc={searchBoardFunc}
         />
       </div>
 
