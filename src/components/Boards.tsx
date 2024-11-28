@@ -38,6 +38,7 @@ function BoardsHTMLGenerator({ boards, searchBoard }: BoardsProps) {
           >
             <Box
               sx={{
+                borderRadius: "16px",
                 position: "relative",
                 width: 300,
                 height: 200,
@@ -81,7 +82,16 @@ function NewBoardButton({ newBoardFunc }: NewBoardButtonProps) {
     <Button
       variant="contained"
       onClick={newBoardFunc}
-      sx={{ textTransform: "none" }}
+      sx={{
+        textTransform: "none",
+        borderRadius: "10px",
+        backgroundColor: "#C6CCB2",
+        color: "#000000",
+        width: "120px",
+        height: "30px",
+        fontSize: "1rem",
+        fontWeight: "bold",
+      }}
     >
       New Board
     </Button>
