@@ -1,75 +1,64 @@
-import logo from "/images/icon.jpg";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
+// import AccountCircle from "@mui/icons-material/AccountCircle";
+// import SettingsIcon from "@mui/icons-material/Settings"; 
 
-import {
-	PersonOutline,
-	SettingsOutline,
-} from "react-ionicons";
 
-function ToggleButton() {
+
+function Navbar() {
   return (
-    <button
-      className="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup"
-    >
-      <span className="navbar-toggler-icon"></span>
-    </button>
-  );
-}
+    <Box 
+    sx={{ 
+      borderRadius: "16px", // פינות מעוגלות
+      overflow: "hidden",   // למניעת חפיפה של תוכן מחוץ לפינות
+      boxShadow: 10,         // צל להדגשה (אופציונלי)
+      margin: 4,            // שוליים מסביב (אופציונלי)
+    }}
+  >
 
-function Navbar (){
-  return (
-    <>
-      <nav className="navbar navbar-expand-lg bg-secondary">
-        <div className="container-fluid">
-          <a className="navbar-brand text-white" href="/">
-            FlowTask
-          </a>
+    <AppBar position="sticky" sx={{ backgroundColor: "#CFC7D2", color: "#000000" }}> 
+       <Toolbar>
+          <Typography variant="h6" component="div">
+            
+            <IconButton 
+            edge="start" 
+            color="inherit" 
+            aria-label="menu" 
+            sx={{ mr: 2 }}
+            >
+              FlowTask
+            </IconButton>
+      
 
-{/*
-to add logo
-          <a href="/">
-                        <img
-                            src={logo}
-                            width="50"
-                            height="50"
-                            className="d-inline-block align-top"
-                            alt="React Bootstrap logo"
-          />
-          </a>
-*/}
 
-      <div className="d-flex align-items-center">
-              <ToggleButton />
-              <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div className="navbar-nav">
-                  <a className="nav-link text-white" href="#">
-                    <SettingsOutline color={"#444"} />
-                  </a>
-                  <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <PersonOutline
-                                  color="#444"
-                                  width={"40px"}
-                                  height={"40px"}
-                                />
-                    </a>
-                      <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                          <li>
-                              <a className="dropdown-item" href="#">My account</a>
-                          </li>
-                          <li>
-                              <a className="dropdown-item" href="#">Log out</a>
-                          </li>
-                      </ul>
-                  </li>
-                </div>
-              </div>
-            </div>
-          </div>
-    </nav>
-    </>
+          <IconButton
+            size="large"
+            edge="end"
+            color="inherit"
+          >
+            user
+             {/*   <AccountCircleIcon/>   */}
+          </IconButton>
+
+
+
+          <IconButton
+            size="large"
+            edge="end"
+            color="inherit"
+            sx={{ ml: 1 }}
+          >
+            {/*   <SettingsIcon/>   */}
+          </IconButton>
+          
+          
+          </Typography>
+       </Toolbar>
+    </AppBar>
+    </Box>
   );
 }
 

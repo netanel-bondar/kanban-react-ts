@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { Card, CardContent, Typography, ButtonBase} from '@mui/material';
 
 interface Board {
   id: string;
@@ -17,8 +18,56 @@ function BoardsHTMLGenerator({ boards, searchBoard }: BoardsProps) {
     return board.title.toLowerCase().includes(searchBoard.toLowerCase());
   });
 
+
+  const handleClick = () => {
+    alert('Card clicked!');
+  };
+
+
   return (
     <>
+
+
+
+{/* begin boad with MUI*/}
+
+<ButtonBase 
+        onClick={handleClick}
+        style={{ display: 'block', textAlign: 'inherit' }}
+      >
+
+        <Card 
+          style={{
+            width: 150,
+            height: 150,
+            margin: '20px auto', // מיקום בקונטיינר ההורה
+            borderRadius: "16px", // פינות מעוגלות
+            boxShadow: '0 3px 5px rgba(0, 0, 0, 0.2)',
+            backgroundColor: "#f5f5f5", // צבע רקע של הכרטיסיה
+            cursor: 'pointer',
+          }}
+        >
+
+
+          {/* CardContent for the content inside */}
+          <CardContent>
+            <Typography 
+              variant="h6" 
+              component="div" 
+              style={{ textAlign: 'center', color: '#3f51b5' }}
+            >
+              Example Board
+            </Typography>
+          </CardContent>
+
+        </Card>
+      </ButtonBase>
+
+
+{/* end boad with MUI*/}
+
+
+
       {filteredBoards.map((board) => (
         <div className="col-xs-12 col-sm-6 col-md-4 col-xl-2" key={board.id}>
           <div
