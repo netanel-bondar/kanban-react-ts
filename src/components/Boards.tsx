@@ -99,7 +99,7 @@ function Searchbox({ searchBoardValue, searchBoardFunc }: SearchboxProps) {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="Search Board..."
+        label="Search Board"
         value={searchBoardValue}
         onChange={searchBoardFunc}
       />
