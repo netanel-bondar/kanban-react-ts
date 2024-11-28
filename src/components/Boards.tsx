@@ -1,6 +1,14 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Card, CardContent, Typography, ButtonBase } from "@mui/material";
+import {
+  Typography,
+  ButtonBase,
+  Box,
+  Grid2 as Grid,
+  Button,
+  Stack,
+  TextField,
+} from "@mui/material";
 
 interface Board {
   id: string;
@@ -18,67 +26,47 @@ function BoardsHTMLGenerator({ boards, searchBoard }: BoardsProps) {
     return board.title.toLowerCase().includes(searchBoard.toLowerCase());
   });
 
-  const handleClick = () => {
-    alert("Card clicked!");
-  };
-
   return (
     <>
-      {/* begin boad with MUI*/}
-
-      <ButtonBase
-        onClick={handleClick}
-        style={{ display: "block", textAlign: "inherit" }}
-      >
-        <Card
-          style={{
-            width: 150,
-            height: 150,
-            margin: "20px auto", // מיקום בקונטיינר ההורה
-            borderRadius: "16px", // פינות מעוגלות
-            boxShadow: "0 3px 5px rgba(0, 0, 0, 0.2)",
-            backgroundColor: "#f5f5f5", // צבע רקע של הכרטיסיה
-            cursor: "pointer",
-          }}
-        >
-          {/* CardContent for the content inside */}
-          <CardContent>
-            <Typography
-              variant="h6"
-              component="div"
-              style={{ textAlign: "center", color: "#3f51b5" }}
-            >
-              Example Board
-            </Typography>
-          </CardContent>
-        </Card>
-      </ButtonBase>
-
-      {/* end boad with MUI*/}
-
       {filteredBoards.map((board) => (
-        <div className="col-xs-12 col-sm-6 col-md-4 col-xl-2" key={board.id}>
-          <div
-            className="card bg-dark text-white"
-            style={{
-              maxWidth: "250px",
-              height: "150px",
-              margin: "1rem",
-              borderRadius: "8px",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-            }}
+        <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2 }}>
+          <ButtonBase
+            sx={{ width: "100%", height: "100%" }}
+            id={board.id}
+            onClick={() => alert(`${board.title} was pressed`)}
+            disableRipple
           >
-            <img
-              className="card-img"
-              src={board.imageUrl}
-              alt="Card image"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-            <div className="card-img-overlay">
-              <h5 className="card-title">{board.title}</h5>
-            </div>
-          </div>
-        </div>
+            <Box
+              sx={{
+                position: "relative",
+                width: 300,
+                height: 200,
+                overflow: "hidden",
+              }}
+            >
+              <img
+                src="images/designhexagon.jpg"
+                alt="Example"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  color: "white",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                }}
+              >
+                {board.title}
+              </Typography>
+            </Box>
+          </ButtonBase>
+        </Grid>
       ))}
     </>
   );
@@ -90,26 +78,32 @@ interface NewBoardButtonProps {
 
 function NewBoardButton({ newBoardFunc }: NewBoardButtonProps) {
   return (
-    <button className="btn btn-primary ms-3" onClick={newBoardFunc}>
+    <Button
+      variant="contained"
+      onClick={newBoardFunc}
+      sx={{ textTransform: "none" }}
+    >
       New Board
-    </button>
+    </Button>
   );
 }
 
 interface SearchboxProps {
   searchBoardValue: string;
-  searchBoardFunc: (value: string) => void;
+  searchBoardFunc: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 function Searchbox({ searchBoardValue, searchBoardFunc }: SearchboxProps) {
   return (
-    <input
-      className="form-control w-25 ms-auto me-3"
-      type="text"
-      placeholder="Search Board"
-      value={searchBoardValue}
-      onChange={(e) => searchBoardFunc(e.target.value)}
-    />
+    <Box sx={{ width: "300px", margin: "0 auto" }}>
+      <TextField
+        fullWidth
+        variant="outlined"
+        placeholder="Search Board..."
+        value={searchBoardValue}
+        onChange={searchBoardFunc}
+      />
+    </Box>
   );
 }
 
@@ -135,25 +129,34 @@ export function Boards() {
 
   const [searchBoard, setSearchBoard] = useState<string>("");
 
-  const searchBoardFunc = (value: string) => {
-    setSearchBoard(value);
+  const searchBoardFunc = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchBoard(event.target.value);
   };
 
   return (
-    <div className="container">
-      <div className="d-flex">
+    <>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{
+          marginBottom: 4,
+          marginLeft: 4,
+          marginRight: 4,
+          justifyContent: "space-between",
+        }}
+      >
         <NewBoardButton newBoardFunc={newBoardFunc} />
 
         <Searchbox
           searchBoardValue={searchBoard}
           searchBoardFunc={searchBoardFunc}
         />
-      </div>
+      </Stack>
 
-      <div className="row">
+      <Grid container spacing={4} sx={{ marginLeft: 4, marginRight: 4 }}>
         <BoardsHTMLGenerator boards={boardsArray} searchBoard={searchBoard} />
-      </div>
-    </div>
+      </Grid>
+    </>
   );
 }
 

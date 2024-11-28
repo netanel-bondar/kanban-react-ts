@@ -32,7 +32,6 @@ function Navbar() {
             </IconButton>
 
             <IconButton size="large" edge="end" color="inherit">
-              user
               <AccountCircleIcon />
             </IconButton>
 

@@ -1,11 +1,8 @@
-
-import { Box, Typography, Grid, Link, Container } from "@mui/material";
-
+import { Box, Typography, Grid2 as Grid, Link, Container } from "@mui/material";
 
 function Footer() {
   return (
-
-<Box
+    <Box
       component="footer"
       sx={{
         backgroundColor: "#CFC7D2",
@@ -20,18 +17,17 @@ function Footer() {
     >
       <Container maxWidth="md">
         <Grid container spacing={4} justifyContent="center">
-          
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Typography variant="h6" gutterBottom>
               About Us
             </Typography>
             <Typography variant="body2" color="inherit">
-              We are a leading company providing top-notch solutions to help businesses succeed in the digital era.
+              We are a leading company providing top-notch solutions to help
+              businesses succeed in the digital era.
             </Typography>
           </Grid>
 
-          
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Typography variant="h6" gutterBottom>
               Quick Links
             </Typography>
@@ -53,7 +49,6 @@ function Footer() {
           </Grid>
         </Grid>
 
-        
         <Box sx={{ marginTop: "20px" }}>
           <Typography variant="body2" color="inherit">
             © Netanel Bondar & Tzofiya Rozen. All rights reserved.
