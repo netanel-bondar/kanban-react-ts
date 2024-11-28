@@ -15,7 +15,7 @@ function Footer() {
         textAlign: "center",
         borderRadius: "16px",
         boxShadow: 10,
-        margin: 4,
+        margin: 2,
       }}
     >
       <Container maxWidth="md">
