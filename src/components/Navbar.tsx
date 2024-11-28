@@ -3,21 +3,21 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import AccountCircleIcone from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 function Navbar() {
   return (
     <Box
       sx={{
-        borderRadius: "16px", // פינות מעוגלות
-        overflow: "hidden", // למניעת חפיפה של תוכן מחוץ לפינות
-        boxShadow: 10, // צל להדגשה (אופציונלי)
-        margin: 4, // שוליים מסביב (אופציונלי)
+        borderRadius: "16px",
+        overflow: "hidden",
+        boxShadow: 10,
+        margin: 1,
       }}
     >
       <AppBar
-        position="sticky"
+        position="static"
         sx={{ backgroundColor: "#CFC7D2", color: "#000000" }}
       >
         <Toolbar>
@@ -31,12 +31,12 @@ function Navbar() {
               FlowTask
             </IconButton>
 
-            <IconButton size="large" edge="end" color="inherit">
-              <AccountCircleIcon />
-            </IconButton>
-
             <IconButton size="large" edge="end" color="inherit" sx={{ ml: 1 }}>
               <SettingsIcon />
+            </IconButton>
+
+            <IconButton size="large" edge="end" color="inherit">
+              <AccountCircleIcone />
             </IconButton>
           </Typography>
         </Toolbar>
