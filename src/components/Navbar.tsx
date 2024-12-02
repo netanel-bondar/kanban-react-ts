@@ -1,19 +1,33 @@
 import React, { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Link,
+  useMediaQuery,
+  Avatar,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Tabs,
+  Tab,
+} from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import CloseIcon from "@mui/icons-material/Close";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MenuIcon from "@mui/icons-material/Menu";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Link from "@mui/material/Link";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm";
 
 function Navbar() {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
@@ -22,6 +36,14 @@ function Navbar() {
   const toggleDrawer = (open: boolean) => () => {
     setIsDrawerOpen(open);
   };
+
+  const [open, setOpen] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) =>
+    setTabIndex(newValue);
 
   return (
     <Box
@@ -78,9 +100,105 @@ function Navbar() {
               >
                 <SettingsIcon />
               </IconButton>
-              <IconButton size="large" edge="end" color="inherit">
+              <IconButton
+                onClick={handleOpen}
+                size="large"
+                edge="end"
+                color="inherit"
+              >
                 <AccountCircleIcon />
               </IconButton>
+
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                maxWidth="xs"
+                PaperProps={{
+                  sx: {
+                    padding: 1,
+                    borderRadius: "16px",
+                    backgroundColor: "#f5f5f5",
+                  },
+                }}
+              >
+                <DialogTitle>
+                  <Avatar
+                    sx={{
+                      mx: "auto",
+                      bgcolor: "#CFC7D2",
+                      color: "black",
+                      textAlign: "center",
+                      mb: 1,
+                    }}
+                  >
+                    <LockOutlinedIcon />
+                  </Avatar>
+
+                  <Typography
+                    component="h1"
+                    variant="h5"
+                    sx={{ textAlign: "center" }}
+                  >
+                    welcome
+                  </Typography>
+
+                  <IconButton
+                    aria-label="close"
+                    onClick={handleClose}
+                    style={{ position: "absolute", right: 8, top: 8 }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </DialogTitle>
+                <DialogContent>
+                  <Tabs
+                    value={tabIndex}
+                    onChange={handleTabChange}
+                    sx={{
+                      "& .Mui-selected": {
+                        color: "black",
+                      },
+                      "& .MuiTabs-indicator": {
+                        backgroundColor: "black",
+                      },
+                    }}
+                  >
+                    <Tab label="log in" />
+                    <Tab label="sign up" />
+                  </Tabs>
+                  {tabIndex === 0 && (
+                    <div>
+                      <LoginForm />
+                    </div>
+                  )}
+                  {tabIndex === 1 && (
+                    <div>
+                      <SignupForm />
+                    </div>
+                  )}
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: tabIndex === 0 ? "#CFC7D2" : "#CFC7D2",
+                      color: "black",
+                      "&:hover": {
+                        backgroundColor: tabIndex === 0 ? "#AA9FB1" : "#AA9FB1",
+                      },
+                    }}
+                  >
+                    {tabIndex === 0 ? "Login" : "Create Account"}{" "}
+                  </Button>
+                </DialogActions>
+              </Dialog>
+
+              <IconButton
+                size="large"
+                edge="end"
+                color="inherit"
+                sx={{ ml: 1 }}
+              ></IconButton>
             </Box>
           )}
         </Toolbar>
