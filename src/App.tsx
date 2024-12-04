@@ -4,7 +4,6 @@ import { Boards } from "./components/Boards";
 
 function App() {
   return (
-    
     <div className="d-flex flex-column min-vh-100">
       <Navbar />
       <Boards />
@@ -14,8 +13,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-

@@ -5,45 +5,61 @@ import {
   Typography,
   IconButton,
   Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Link,
-  useMediaQuery,
   Avatar,
-  Button,
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
   Tabs,
   Tab,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CloseIcon from "@mui/icons-material/Close";
-import SettingsIcon from "@mui/icons-material/Settings";
-import MenuIcon from "@mui/icons-material/Menu";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 
+const dummyUser = { username: "username", password: "1234" };
+
 function Navbar() {
-  const isSmallScreen = useMediaQuery("(max-width:600px)");
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const toggleDrawer = (open: boolean) => () => {
-    setIsDrawerOpen(open);
-  };
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleOpen = () => setOpen(true);
+
   const handleClose = () => setOpen(false);
+
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) =>
     setTabIndex(newValue);
+
+  const handleLogin = (username: string, password: string) => {
+    if (username === dummyUser.username && password === dummyUser.password) {
+      setIsLoggedIn(true);
+      setLoggedInUser(username);
+      handleClose();
+    } else {
+      alert("Incorrect username or password");
+    }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setLoggedInUser(null);
+  };
+
+  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMenuAnchor(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchor(null);
+  };
 
   return (
     <Box
@@ -79,160 +95,109 @@ function Navbar() {
             </Link>
           </Typography>
 
-          {/* Show MenuIcon for small screens, icons for larger screens */}
-          {isSmallScreen ? (
-            <IconButton
-              size="large"
-              edge="end"
-              color="inherit"
-              onClick={toggleDrawer(true)} // Open drawer on click
-            >
-              <MenuIcon />
-            </IconButton>
-          ) : (
-            <Box>
-              {/* Regular icons for large screens */}
-              <IconButton
-                size="large"
-                edge="end"
-                color="inherit"
-                sx={{ ml: 1 }}
-              >
-                <SettingsIcon />
-              </IconButton>
-              <IconButton
-                onClick={handleOpen}
-                size="large"
-                edge="end"
-                color="inherit"
-              >
-                <AccountCircleIcon />
-              </IconButton>
-
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                maxWidth="xs"
-                PaperProps={{
-                  sx: {
-                    padding: 1,
-                    borderRadius: "16px",
-                    backgroundColor: "#f5f5f5",
-                  },
-                }}
-              >
-                <DialogTitle>
-                  <Avatar
-                    sx={{
-                      mx: "auto",
-                      bgcolor: "#CFC7D2",
-                      color: "black",
-                      textAlign: "center",
-                      mb: 1,
-                    }}
-                  >
-                    <LockOutlinedIcon />
-                  </Avatar>
-
-                  <Typography
-                    component="h1"
-                    variant="h5"
-                    sx={{ textAlign: "center" }}
-                  >
-                    welcome
-                  </Typography>
-
-                  <IconButton
-                    aria-label="close"
-                    onClick={handleClose}
-                    style={{ position: "absolute", right: 8, top: 8 }}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                </DialogTitle>
-                <DialogContent>
-                  <Tabs
-                    value={tabIndex}
-                    onChange={handleTabChange}
-                    sx={{
-                      "& .Mui-selected": {
+          <Box>
+            {isLoggedIn ? (
+              <>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton color="inherit" onClick={handleMenuOpen}>
+                    <Avatar
+                      sx={{
                         color: "black",
-                      },
-                      "& .MuiTabs-indicator": {
-                        backgroundColor: "black",
-                      },
-                    }}
-                  >
-                    <Tab label="log in" />
-                    <Tab label="sign up" />
-                  </Tabs>
-                  {tabIndex === 0 && (
-                    <div>
-                      <LoginForm />
-                    </div>
-                  )}
-                  {tabIndex === 1 && (
-                    <div>
-                      <SignupForm />
-                    </div>
-                  )}
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: tabIndex === 0 ? "#CFC7D2" : "#CFC7D2",
-                      color: "black",
-                      "&:hover": {
-                        backgroundColor: tabIndex === 0 ? "#AA9FB1" : "#AA9FB1",
-                      },
-                    }}
-                  >
-                    {tabIndex === 0 ? "Login" : "Create Account"}{" "}
-                  </Button>
-                </DialogActions>
-              </Dialog>
+                      }}
+                    >
+                      {loggedInUser?.charAt(0).toUpperCase()}
+                    </Avatar>
+                  </IconButton>
+                  <Typography> {loggedInUser}</Typography>
+                </Box>
 
-              <IconButton
-                size="large"
-                edge="end"
-                color="inherit"
-                sx={{ ml: 1 }}
-              ></IconButton>
-            </Box>
-          )}
+                <Menu
+                  anchorEl={menuAnchor}
+                  open={Boolean(menuAnchor)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem onClick={() => alert("Settings Account")}>
+                    Settings Account
+                  </MenuItem>
+
+                  <MenuItem
+                    onClick={() => {
+                      handleLogout();
+                      handleMenuClose();
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <IconButton onClick={handleOpen} edge="end" color="inherit">
+                <AccountCircleIcon sx={{ fontSize: "xx-large" }} />
+              </IconButton>
+            )}
+
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              maxWidth="xs"
+              PaperProps={{
+                sx: {
+                  padding: 1,
+                  borderRadius: "16px",
+                  backgroundColor: "#f5f5f5",
+                },
+              }}
+            >
+              <DialogTitle>
+                <Avatar
+                  sx={{
+                    mx: "auto",
+                    bgcolor: "#CFC7D2",
+                    color: "black",
+                    textAlign: "center",
+                    mb: 1,
+                  }}
+                >
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5" textAlign="center">
+                  Welcome
+                </Typography>
+                <IconButton
+                  aria-label="close"
+                  onClick={handleClose}
+                  style={{ position: "absolute", right: 8, top: 8 }}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </DialogTitle>
+              <DialogContent>
+                <Tabs
+                  value={tabIndex}
+                  onChange={handleTabChange}
+                  centered
+                  sx={{
+                    "& .Mui-selected": { color: "black" },
+                    "& .MuiTabs-indicator": { backgroundColor: "black" },
+                  }}
+                >
+                  <Tab label="Log In" />
+                  <Tab label="Sign Up" />
+                </Tabs>
+
+                {tabIndex === 0 && <LoginForm onLogin={handleLogin} />}
+                {tabIndex === 1 && <SignupForm />}
+              </DialogContent>
+            </Dialog>
+          </Box>
         </Toolbar>
       </AppBar>
-
-      {/* Drawer for small screens */}
-      <Drawer
-        anchor="right"
-        open={isDrawerOpen}
-        onClose={toggleDrawer(false)} // Close drawer on outside click
-      >
-        <Box
-          sx={{ width: 200 }}
-          role="presentation"
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
-        >
-          <List>
-            <ListItem component="button">
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Settings" />
-            </ListItem>
-
-            <ListItem component="button">
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Account" />
-            </ListItem>
-          </List>
-        </Box>
-      </Drawer>
     </Box>
   );
 }
