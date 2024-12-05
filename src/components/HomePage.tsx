@@ -117,7 +117,7 @@ function Searchbox({ searchBoardValue, searchBoardFunc }: SearchboxProps) {
   );
 }
 
-export function Boards() {
+export function HomePage() {
   const initBoardsArray: Board[] = Array.from({ length: 7 }, (_, index) => ({
     id: uuidv4(),
     title: `Board ${index + 1}`,
@@ -170,4 +170,4 @@ export function Boards() {
   );
 }
 
-export default Boards;
+export default HomePage;

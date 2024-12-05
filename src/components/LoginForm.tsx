@@ -61,15 +61,15 @@ function LoginForm({
         type="submit"
         fullWidth
         sx={{
+          mt: 2,
           backgroundColor: "#CFC7D2",
           color: "black",
           "&:hover": {
             backgroundColor: "#AA9FB1",
-            mt: 2
           },
         }}
       >
-        Log In
+        LogIn
       </Button>
     </form>
   );

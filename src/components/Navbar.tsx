@@ -6,50 +6,14 @@ import {
   IconButton,
   Box,
   Link,
-  Avatar,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Tabs,
-  Tab,
   Menu,
   MenuItem,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import CloseIcon from "@mui/icons-material/Close";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import LoginForm from "./LoginForm";
-import SignupForm from "./SignupForm";
-
-const dummyUser = { username: "username", password: "1234" };
+import SettingsIcon from "@mui/icons-material/Settings";
 
 function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
-  const [open, setOpen] = useState(false);
-  const [tabIndex, setTabIndex] = useState(0);
-
-  const handleOpen = () => setOpen(true);
-
-  const handleClose = () => setOpen(false);
-
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) =>
-    setTabIndex(newValue);
-
-  const handleLogin = (username: string, password: string) => {
-    if (username === dummyUser.username && password === dummyUser.password) {
-      setIsLoggedIn(true);
-      setLoggedInUser(username);
-      handleClose();
-    } else {
-      alert("Incorrect username or password");
-    }
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setLoggedInUser(null);
-  };
+  const handleLogout = () => {};
 
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
 
@@ -95,106 +59,35 @@ function Navbar() {
             </Link>
           </Typography>
 
-          <Box>
-            {isLoggedIn ? (
-              <>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <IconButton color="inherit" onClick={handleMenuOpen}>
-                    <Avatar
-                      sx={{
-                        color: "black",
-                      }}
-                    >
-                      {loggedInUser?.charAt(0).toUpperCase()}
-                    </Avatar>
-                  </IconButton>
-                  <Typography> {loggedInUser}</Typography>
-                </Box>
-
-                <Menu
-                  anchorEl={menuAnchor}
-                  open={Boolean(menuAnchor)}
-                  onClose={handleMenuClose}
-                >
-                  <MenuItem onClick={() => alert("Settings Account")}>
-                    Settings Account
-                  </MenuItem>
-
-                  <MenuItem
-                    onClick={() => {
-                      handleLogout();
-                      handleMenuClose();
-                    }}
-                  >
-                    Logout
-                  </MenuItem>
-                </Menu>
-              </>
-            ) : (
-              <IconButton onClick={handleOpen} edge="end" color="inherit">
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {" "}
+            <IconButton edge="end" color="inherit">
+              <SettingsIcon sx={{ fontSize: "xx-large" }} />
+            </IconButton>
+            <>
+              <IconButton color="inherit" onClick={handleMenuOpen}>
                 <AccountCircleIcon sx={{ fontSize: "xx-large" }} />
               </IconButton>
-            )}
 
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              maxWidth="xs"
-              PaperProps={{
-                sx: {
-                  padding: 1,
-                  borderRadius: "16px",
-                  backgroundColor: "#f5f5f5",
-                },
-              }}
-            >
-              <DialogTitle>
-                <Avatar
-                  sx={{
-                    mx: "auto",
-                    bgcolor: "#CFC7D2",
-                    color: "black",
-                    textAlign: "center",
-                    mb: 1,
+              <Menu
+                anchorEl={menuAnchor}
+                open={Boolean(menuAnchor)}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={() => alert("My Account")}>
+                  My Account
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    handleLogout();
+                    handleMenuClose();
                   }}
                 >
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5" textAlign="center">
-                  Welcome
-                </Typography>
-                <IconButton
-                  aria-label="close"
-                  onClick={handleClose}
-                  style={{ position: "absolute", right: 8, top: 8 }}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </DialogTitle>
-              <DialogContent>
-                <Tabs
-                  value={tabIndex}
-                  onChange={handleTabChange}
-                  centered
-                  sx={{
-                    "& .Mui-selected": { color: "black" },
-                    "& .MuiTabs-indicator": { backgroundColor: "black" },
-                  }}
-                >
-                  <Tab label="Log In" />
-                  <Tab label="Sign Up" />
-                </Tabs>
-
-                {tabIndex === 0 && <LoginForm onLogin={handleLogin} />}
-                {tabIndex === 1 && <SignupForm />}
-              </DialogContent>
-            </Dialog>
+                  Logout
+                </MenuItem>
+              </Menu>
+            </>
           </Box>
         </Toolbar>
       </AppBar>
