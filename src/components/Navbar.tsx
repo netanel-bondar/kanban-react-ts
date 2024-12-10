@@ -78,8 +78,15 @@ function Navbar() {
                 open={Boolean(menuAnchor)}
                 onClose={handleMenuClose}
               >
-                <MenuItem onClick={() => alert("My Account")}>
-                  My Account
+                <MenuItem>
+                  <Link
+                    component={RouterLink}
+                    to="/profile"
+                    color="inherit"
+                    sx={{ textDecoration: "none" }}
+                  >
+                    My Account
+                  </Link>
                 </MenuItem>
 
                 <MenuItem

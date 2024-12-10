@@ -5,6 +5,7 @@ import LoginPage from "./components/LoginPage";
 import SettingsPage from "./components/SettingsPage";
 import HomePage from "./components/HomePage";
 import ProfilePage from "./components/ProfilePage";
+import BoardPage from "./components/BoardPage";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -17,6 +18,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/board/:id" element={<BoardPage />} />
         </Routes>
 
         <Footer />
