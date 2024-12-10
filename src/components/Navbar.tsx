@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { Link as RouterLink } from "react-router-dom";
 
 function Navbar() {
   const handleLogout = () => {};
@@ -46,7 +47,8 @@ function Navbar() {
         >
           <Typography variant="h6" component="div">
             <Link
-              href="/"
+              component={RouterLink}
+              to="/"
               color="inherit"
               underline="none"
               sx={{
@@ -61,9 +63,11 @@ function Navbar() {
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
             {" "}
-            <IconButton edge="end" color="inherit">
-              <SettingsIcon sx={{ fontSize: "xx-large" }} />
-            </IconButton>
+            <Link component={RouterLink} to="/settings" color="inherit">
+              <IconButton edge="end" color="inherit">
+                <SettingsIcon sx={{ fontSize: "xx-large" }} />
+              </IconButton>
+            </Link>
             <>
               <IconButton color="inherit" onClick={handleMenuOpen}>
                 <AccountCircleIcon sx={{ fontSize: "xx-large" }} />

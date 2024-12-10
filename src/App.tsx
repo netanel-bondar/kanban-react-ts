@@ -6,14 +6,21 @@ import SettingsPage from "./components/SettingsPage";
 import HomePage from "./components/HomePage";
 import ProfilePage from "./components/ProfilePage";
 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 function App() {
   return (
     <>
-  
-      <Navbar />
-      <HomePage/>
-      <Footer/>
+      <Router>
+        <Navbar />
 
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Routes>
+
+        <Footer />
+      </Router>
     </>
   );
 }
