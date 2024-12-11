@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Stack, Box, TextField, Grid } from "@mui/material";
+import { Button, Stack, Box, TextField, Grid2 as Grid } from "@mui/material";
 import BoardsGrid from "./BoardsGrid";
 import { v4 as uuidv4 } from "uuid";
 import AddBoxIcon from "@mui/icons-material/AddBox";

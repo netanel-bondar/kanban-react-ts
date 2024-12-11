@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Box, Typography, ButtonBase } from "@mui/material";
+import { Grid2 as Grid, Box, Typography, ButtonBase } from "@mui/material";
 import { Board } from "../typings";
 
 interface BoardsGridProps {
@@ -9,9 +9,9 @@ interface BoardsGridProps {
 
 const BoardsGrid: React.FC<BoardsGridProps> = ({ boards, onBoardClick }) => {
   return (
-    <Grid container spacing={4}>
+    <>
       {boards.map((board) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={board.id}>
+        <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2 }} key={board.id}>
           {" "}
           <ButtonBase
             sx={{ width: "100%", height: "100%" }}
@@ -56,7 +56,7 @@ const BoardsGrid: React.FC<BoardsGridProps> = ({ boards, onBoardClick }) => {
           </ButtonBase>
         </Grid>
       ))}
-    </Grid>
+    </>
   );
 };
 
