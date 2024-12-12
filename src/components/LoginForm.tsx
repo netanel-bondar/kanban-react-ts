@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, FormEvent } from "react";
 import styled from "@emotion/styled";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -30,7 +30,7 @@ function LoginForm({
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     onLogin(username, password);
   };

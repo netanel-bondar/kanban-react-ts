@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, FC } from "react";
 import { useParams } from "react-router-dom";
 import {
   Box,
@@ -14,7 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { v4 as uuidv4 } from "uuid";
 import { TaskList, Card } from "../typings";
 
-const BoardPage: React.FC = () => {
+const BoardPage: FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const [lists, setLists] = useState<TaskList[]>([
@@ -29,6 +29,10 @@ const BoardPage: React.FC = () => {
       cards: [],
     };
     setLists([...lists, newList]);
+  };
+
+  const removeList = (listId: string) => {
+    setLists((lists) => lists.filter((list) => list.id !== listId));
   };
 
   const [cards, setCards] = useState<Card[]>([]);
@@ -91,7 +95,7 @@ const BoardPage: React.FC = () => {
             >
               <IconButton
                 style={{ position: "absolute", right: 8, top: 8 }}
-                onClick={() => {}}
+                onClick={() => removeList(list.id)}
               >
                 <CloseIcon />
               </IconButton>

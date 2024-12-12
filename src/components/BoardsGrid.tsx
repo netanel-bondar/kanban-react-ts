@@ -1,13 +1,25 @@
-import React from "react";
-import { Grid2 as Grid, Box, Typography, ButtonBase } from "@mui/material";
+import { MouseEvent, FC } from "react";
+import {
+  Grid2 as Grid,
+  Box,
+  Typography,
+  ButtonBase,
+  IconButton,
+} from "@mui/material";
 import { Board } from "../typings";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 interface BoardsGridProps {
   boards: Board[];
   onBoardClick: (id: string) => void;
+  onRemoveClick: (id: string, event: MouseEvent) => void;
 }
 
-const BoardsGrid: React.FC<BoardsGridProps> = ({ boards, onBoardClick }) => {
+const BoardsGrid: FC<BoardsGridProps> = ({
+  boards,
+  onBoardClick,
+  onRemoveClick,
+}) => {
   return (
     <>
       {boards.map((board) => (
@@ -52,6 +64,15 @@ const BoardsGrid: React.FC<BoardsGridProps> = ({ boards, onBoardClick }) => {
               >
                 {board.title}
               </Typography>
+              <MoreVertIcon
+                sx={{
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                  color: "white",
+                }}
+                onClick={(event) => onRemoveClick(board.id, event)}
+              ></MoreVertIcon>
             </Box>
           </ButtonBase>
         </Grid>

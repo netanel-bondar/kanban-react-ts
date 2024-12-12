@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, MouseEvent } from "react";
 import {
   AppBar,
   Toolbar,
@@ -18,7 +18,7 @@ function Navbar() {
 
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setMenuAnchor(event.currentTarget);
   };
 

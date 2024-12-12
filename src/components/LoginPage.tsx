@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, SyntheticEvent } from "react";
 import { Box, Paper, Tabs, Tab, Avatar, Typography } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LoginForm from "./LoginForm";
@@ -9,7 +9,7 @@ const dummyUser = { username: "username", password: "1234" };
 function LoginPage() {
   const [tabIndex, setTabIndex] = useState(0); // 0 for Login, 1 for Signup
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
 

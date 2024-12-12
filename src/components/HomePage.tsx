@@ -1,11 +1,11 @@
-import React, { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, FC, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Stack, Box, TextField, Grid2 as Grid } from "@mui/material";
 import BoardsGrid from "./BoardsGrid";
 import { v4 as uuidv4 } from "uuid";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
-const HomePage: React.FC = () => {
+const HomePage: FC = () => {
   const [boards, setBoards] = useState([
     { id: uuidv4(), title: "Board 1", imageUrl: "images/designhexagon.jpg" },
     { id: uuidv4(), title: "Board 2", imageUrl: "images/designhexagon.jpg" },
@@ -21,6 +21,11 @@ const HomePage: React.FC = () => {
       imageUrl: "images/designhexagon.jpg",
     };
     setBoards([...boards, newBoard]);
+  };
+
+  const removeBoard = (boardId: string, event: MouseEvent) => {
+    event.stopPropagation();
+    setBoards((boards) => boards.filter((board) => board.id !== boardId));
   };
 
   const filteredBoards = boards.filter((board) =>
@@ -72,6 +77,7 @@ const HomePage: React.FC = () => {
         <BoardsGrid
           boards={filteredBoards}
           onBoardClick={(id) => navigate(`/board/${id}`)}
+          onRemoveClick={(boardId, event) => removeBoard(boardId, event)}
         />
       </Grid>
     </Box>
