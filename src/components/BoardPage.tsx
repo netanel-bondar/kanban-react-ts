@@ -13,6 +13,8 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { v4 as uuidv4 } from "uuid";
 import { TaskList, Card } from "../typings";
+import { List } from "lucide-react";
+import Lists from "./Lists";
 
 const BoardPage: FC = () => {
   const { boardId } = useParams<{ boardId: string }>();
@@ -79,89 +81,7 @@ const BoardPage: FC = () => {
       </Typography>
 
       <Stack direction="row" spacing={3} sx={{ minWidth: "max-content" }}>
-        {lists.map((list) => (
-          <div key={list.id}>
-            <Paper
-              variant="elevation"
-              elevation={3}
-              square={false}
-              sx={{
-                p: 2,
-                backgroundColor: "#D3D0CB",
-                width: 200,
-                height: 400,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                position: "relative",
-              }}
-            >
-              <IconButton
-                style={{ position: "absolute", right: 8, top: 8 }}
-                onClick={() => removeList(list.id)}
-              >
-                <CloseIcon />
-              </IconButton>
-
-              <Typography
-                key={list.id}
-                variant="h6"
-                sx={{ textAlign: "center" }}
-              >
-                {list.title}
-              </Typography>
-
-              {list.cards.map((card) => (
-                <div key={card.id}>
-                  <Paper
-                    variant="elevation"
-                    elevation={3}
-                    square={false}
-                    sx={{
-                      p: 2,
-                      backgroundColor: "#D3D0CB",
-                      width: 170,
-                      height: 70,
-                      marginTop: 1,
-                    }}
-                  >
-                    <div>
-                      <Typography sx={{ fontWeight: "bold", fontSize: "1rem" }}>
-                        {card.title}
-                      </Typography>
-                      <Typography variant="body2">
-                        {card.description}
-                      </Typography>
-                    </div>
-                  </Paper>
-                </div>
-              ))}
-
-              <Box
-                sx={{ display: "flex", justifyContent: "center", mt: "auto" }}
-              >
-                <Button
-                  size="small"
-                  startIcon={<AddIcon />}
-                  sx={{
-                    width: 150,
-                    color: "#000000",
-                    textTransform: "none",
-                    borderRadius: "10px",
-                    "&:hover": {
-                      backgroundColor: "#B3B0AB",
-                    },
-                  }}
-                  onClick={() =>
-                    addCard(list.id, "title", `New Card in ${list.title}`)
-                  }
-                >
-                  Add Card
-                </Button>
-              </Box>
-            </Paper>
-          </div>
-        ))}
+        <Lists lists={lists} removeList={removeList} addCard={addCard} />
         <Box>
           <Button
             variant="contained"
