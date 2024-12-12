@@ -1,11 +1,5 @@
 import { MouseEvent, FC } from "react";
-import {
-  Grid2 as Grid,
-  Box,
-  Typography,
-  ButtonBase,
-  IconButton,
-} from "@mui/material";
+import { Grid2 as Grid, Box, Typography, ButtonBase } from "@mui/material";
 import { Board } from "../typings";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 

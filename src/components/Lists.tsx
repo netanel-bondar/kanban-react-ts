@@ -2,14 +2,14 @@ import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
 import { TaskList } from "../typings";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
+import { FC } from "react";
 
 interface ListsProps {
   lists: TaskList[];
   removeList: (listId: string) => void;
   addCard: (listId: string, cardTitle: string, cardDescription: string) => void;
 }
-
-const Lists = ({ lists, removeList, addCard }: ListsProps) => {
+const Lists: FC<ListsProps> = ({ lists, removeList, addCard }) => {
   return (
     <>
       {lists.map((list) => (

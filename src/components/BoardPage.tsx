@@ -1,22 +1,12 @@
-import { useState, FC, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  Button,
-  Stack,
-  Paper,
-  IconButton,
-} from "@mui/material";
+import { Box, Typography, Button, Stack } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from "@mui/icons-material/Close";
 import { v4 as uuidv4 } from "uuid";
 import { TaskList, Card } from "../typings";
-import { List } from "lucide-react";
 import Lists from "./Lists";
 
-const BoardPage: FC = () => {
+const BoardPage = () => {
   const { boardId } = useParams<{ boardId: string }>();
 
   const initLists = JSON.parse(localStorage.getItem(`lists${boardId}`) || "[]");
