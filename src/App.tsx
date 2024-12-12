@@ -19,7 +19,7 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/" element={<HomePage />} />
-          <Route path="/board/:id" element={<BoardPage />} />
+          <Route path="/board/:boardId" element={<BoardPage />} />
         </Routes>
 
         <Footer />

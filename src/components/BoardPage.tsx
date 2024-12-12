@@ -1,4 +1,4 @@
-import { useState, FC } from "react";
+import { useState, FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   Box,
@@ -15,12 +15,15 @@ import { v4 as uuidv4 } from "uuid";
 import { TaskList, Card } from "../typings";
 
 const BoardPage: FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { boardId } = useParams<{ boardId: string }>();
 
-  const [lists, setLists] = useState<TaskList[]>([
-    { id: uuidv4(), title: "List 1", cards: [] },
-    { id: uuidv4(), title: "List 2", cards: [] },
-  ]);
+  const initLists = JSON.parse(localStorage.getItem(`lists${boardId}`) || "[]");
+
+  const [lists, setLists] = useState<TaskList[]>(initLists);
+
+  useEffect(() => {
+    localStorage.setItem(`lists${boardId}`, JSON.stringify(lists));
+  }, [lists]);
 
   const addList = () => {
     const newList = {
@@ -72,7 +75,7 @@ const BoardPage: FC = () => {
       }}
     >
       <Typography variant="h5" sx={{ textAlign: "center", marginBottom: 4 }}>
-        Board id: {id}
+        Board id: {boardId}
       </Typography>
 
       <Stack direction="row" spacing={3} sx={{ minWidth: "max-content" }}>
