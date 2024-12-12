@@ -2,7 +2,7 @@
 export interface Board {
     id: string; 
     title: string;
-    imageUrl: string; 
+    // imageUrl: string; 
    // lists: TaskList[];
   }
 

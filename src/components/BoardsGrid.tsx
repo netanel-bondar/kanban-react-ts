@@ -31,17 +31,18 @@ const BoardsGrid: FC<BoardsGridProps> = ({
                 width: 300,
                 height: 200,
                 overflow: "hidden",
+                background: "#D3D0CB"
               }}
             >
+              {/*
               <img
                 src="images/designhexagon.jpg"
                 alt="Example"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
-
-              {/* 
                 src={board.imageUrl} 
-                alt={board.title}*/}
+                alt={board.title}
+                */}
 
               <Typography
                 variant="h6"
@@ -51,8 +52,6 @@ const BoardsGrid: FC<BoardsGridProps> = ({
                   left: "50%",
                   transform: "translate(-50%, -50%)",
                   color: "black",
-                  backgroundColor: "#D3D0CB",
-                  padding: "4px 8px",
                   borderRadius: "4px",
                 }}
               >
@@ -63,7 +62,7 @@ const BoardsGrid: FC<BoardsGridProps> = ({
                   position: "absolute",
                   top: 8,
                   right: 8,
-                  color: "white",
+                  color: "black",
                 }}
                 onClick={(event) => onRemoveClick(board.id, event)}
               ></MoreVertIcon>

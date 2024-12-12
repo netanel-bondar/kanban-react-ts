@@ -1,10 +1,21 @@
 import { useState, ChangeEvent, FC, MouseEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Stack, Box, TextField, Grid2 as Grid } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Box,
+  TextField,
+  Grid2 as Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 import BoardsGrid from "./BoardsGrid";
 import { v4 as uuidv4 } from "uuid";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { Board } from "../typings";
+import { StyledTextField } from "./LoginForm";
 
 const HomePage: FC = () => {
   const initBoardsArray = JSON.parse(localStorage.getItem("boards") || "[]");
@@ -16,15 +27,19 @@ const HomePage: FC = () => {
 
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
 
-  const addBoard = () => {
+  const AddBoard = () => {
+    if (!newTitle.trim()) return;
     const newBoard = {
       id: uuidv4(),
-      title: `Board ${boards.length + 1}`,
-      imageUrl: "images/designhexagon.jpg",
+      title: newTitle,
       lists: [],
     };
     setBoards([...boards, newBoard]);
+    setOpenModal(false);
+    setNewTitle("");
   };
 
   const removeBoard = (boardId: string, event: MouseEvent) => {
@@ -59,9 +74,9 @@ const HomePage: FC = () => {
             textTransform: "none",
             borderRadius: "10px",
           }}
-          onClick={addBoard}
+          onClick={() => setOpenModal(true)}
         >
-          New Board
+          New board
         </Button>
 
         <Box sx={{ width: "300px" }}>
@@ -84,6 +99,53 @@ const HomePage: FC = () => {
           onRemoveClick={(boardId, event) => removeBoard(boardId, event)}
         />
       </Grid>
+
+      <Dialog open={openModal} onClose={() => setOpenModal(false)}>
+        <DialogTitle sx={{ textAlign: "center", mb: 1 }}>
+          Create board
+        </DialogTitle>
+        <DialogContent>
+          <StyledTextField
+            fullWidth
+            label="Board title"
+            value={newTitle}
+            variant="outlined"
+            margin="normal"
+            required
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setNewTitle(e.target.value)
+            }
+            sx={{ marginBottom: 2 }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setOpenModal(false)}
+            sx={{
+              color: "black",
+              "&:hover": {
+                fontWeight: "bold",
+              },
+            }}
+          >
+            {" "}
+            Cancel
+          </Button>
+
+          <Button
+            onClick={AddBoard}
+            disabled={!newTitle.trim()}
+            sx={{
+              color: "black",
+              "&:hover": {
+                fontWeight: "bold",
+              },
+            }}
+          >
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
