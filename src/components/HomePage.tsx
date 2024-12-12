@@ -1,15 +1,18 @@
-import { useState, ChangeEvent, FC, MouseEvent } from "react";
+import { useState, ChangeEvent, FC, MouseEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Stack, Box, TextField, Grid2 as Grid } from "@mui/material";
 import BoardsGrid from "./BoardsGrid";
 import { v4 as uuidv4 } from "uuid";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import { Board } from "../typings";
 
 const HomePage: FC = () => {
-  const [boards, setBoards] = useState([
-    { id: uuidv4(), title: "Board 1", imageUrl: "images/designhexagon.jpg" },
-    { id: uuidv4(), title: "Board 2", imageUrl: "images/designhexagon.jpg" },
-  ]);
+  const initBoardsArray = JSON.parse(localStorage.getItem("boards") || "[]");
+  const [boards, setBoards] = useState<Board[]>(initBoardsArray);
+
+  useEffect(() => {
+    localStorage.setItem("boards", JSON.stringify(boards));
+  }, [boards]);
 
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -19,6 +22,7 @@ const HomePage: FC = () => {
       id: uuidv4(),
       title: `Board ${boards.length + 1}`,
       imageUrl: "images/designhexagon.jpg",
+      lists: [],
     };
     setBoards([...boards, newBoard]);
   };
