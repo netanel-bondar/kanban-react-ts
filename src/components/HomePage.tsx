@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  lighten,
 } from "@mui/material";
 import BoardsGrid from "./BoardsGrid";
 import { v4 as uuidv4 } from "uuid";
@@ -66,13 +67,18 @@ const HomePage: FC = () => {
       >
         <Button
           variant="contained"
-          size="medium"
+          size="small"
           startIcon={<AddBoxIcon />}
           sx={{
             backgroundColor: "#D3D0CB",
             color: "#000000",
             textTransform: "none",
             borderRadius: "10px",
+            transition: "all 0.05s linear",
+            "&:hover": {
+              transform: "scale(1.1)",
+              backgroundColor: lighten("#D3D0CB", 0.2),
+            },
           }}
           onClick={() => setOpenModal(true)}
         >
@@ -95,7 +101,7 @@ const HomePage: FC = () => {
       <Grid container spacing={4} sx={{ maxWidth: "90vw", margin: "auto" }}>
         <BoardsGrid
           boards={filteredBoards}
-          onBoardClick={(id) => navigate(`/board/${id}`)}
+          onBoardClick={(id) => navigate(`/app/board/${id}`)}
           onRemoveClick={(boardId, event) => removeBoard(boardId, event)}
         />
       </Grid>

@@ -1,4 +1,5 @@
-import { Box, Typography, Grid2 as Grid, Link, Container } from "@mui/material";
+import { Box, Typography, Grid2 as Grid, Container, Link } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 function Footer() {
   return (
@@ -32,17 +33,48 @@ function Footer() {
               Quick Links
             </Typography>
             <Box>
-              <Link href="/" underline="hover" color="inherit">
+              <Link
+                to="/app/home"
+                component={RouterLink}
+                sx={{
+                  textDecoration: "none",
+                  "&:hover": {
+                    fontWeight: "bold",
+                  },
+                }}
+                color="inherit"
+              >
                 Home
               </Link>
             </Box>
+
             <Box>
-              <Link href="/settings" underline="hover" color="inherit">
+              <Link
+                to="/app/settings"
+                component={RouterLink}
+                sx={{
+                  textDecoration: "none",
+                  "&:hover": {
+                    fontWeight: "bold",
+                  },
+                }}
+                color="inherit"
+              >
                 Settings
               </Link>
             </Box>
             <Box>
-              <Link href="/profile" underline="hover" color="inherit">
+              <Link
+                to="/app/profile"
+                component={RouterLink}
+                sx={{
+                  textDecoration: "none",
+                  "&:hover": {
+                    fontWeight: "bold",
+                  },
+                }}
+                color="inherit"
+              >
                 Profile
               </Link>
             </Box>

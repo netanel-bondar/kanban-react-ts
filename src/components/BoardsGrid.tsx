@@ -31,7 +31,7 @@ const BoardsGrid: FC<BoardsGridProps> = ({
                 width: 300,
                 height: 200,
                 overflow: "hidden",
-                background: "#D3D0CB"
+                background: "#D3D0CB",
               }}
             >
               {/*

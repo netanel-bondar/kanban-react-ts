@@ -3,14 +3,25 @@ import { Box, Paper, Tabs, Tab, Avatar, Typography } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-
-const dummyUser = { username: "username", password: "1234" };
+import { useAuth } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [tabIndex, setTabIndex] = useState(0); // 0 for Login, 1 for Signup
 
   const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
+  };
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = (username: string, password: string) => {
+    if (login(username, password)) {
+      navigate("/app/home");
+    } else {
+      alert("Invalid credentials");
+    }
   };
 
   return (
@@ -62,7 +73,7 @@ function LoginPage() {
           <Tab label="LogIn" />
           <Tab label="Sign Up" />
         </Tabs>
-        {tabIndex === 0 && <LoginForm onLogin={() => {}} />}{" "}
+        {tabIndex === 0 && <LoginForm onLogin={handleLogin} />}{" "}
         {tabIndex === 1 && <SignupForm />}
       </Paper>
     </Box>

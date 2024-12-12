@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -11,14 +11,23 @@ import {
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 function Navbar() {
-  const handleLogout = () => {};
+  const { logout } = useAuth();
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    handleMenuClose();
+    navigate("/");
+  };
 
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
 
-  const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMenuAnchor(event.currentTarget);
   };
 
@@ -48,13 +57,18 @@ function Navbar() {
           <Typography variant="h6" component="div">
             <Link
               component={RouterLink}
-              to="/"
+              to="/app/home"
               color="inherit"
               underline="none"
               sx={{
                 fontSize: "1.5rem",
                 fontWeight: "bold",
                 cursor: "pointer",
+                transition: "all 0.2s ease",
+                "&:hover": {
+                  fontWeight: "bolder",
+                  fontSize: "1.7rem",
+                },
               }}
             >
               FlowTask
@@ -63,14 +77,30 @@ function Navbar() {
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
             {" "}
-            <Link component={RouterLink} to="/settings" color="inherit">
+            <Link component={RouterLink} to="/app/settings" color="inherit">
               <IconButton edge="end" color="inherit">
-                <SettingsIcon sx={{ fontSize: "xx-large" }} />
+                <SettingsIcon
+                  sx={{
+                    fontSize: "xx-large",
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      fontSize: "2.5rem",
+                    },
+                  }}
+                />
               </IconButton>
             </Link>
             <>
               <IconButton color="inherit" onClick={handleMenuOpen}>
-                <AccountCircleIcon sx={{ fontSize: "xx-large" }} />
+                <AccountCircleIcon
+                  sx={{
+                    fontSize: "xx-large",
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      fontSize: "2.5rem",
+                    },
+                  }}
+                />
               </IconButton>
 
               <Menu
@@ -81,18 +111,26 @@ function Navbar() {
                 <MenuItem>
                   <Link
                     component={RouterLink}
-                    to="/profile"
+                    to="/app/profile"
                     color="inherit"
-                    sx={{ textDecoration: "none" }}
+                    sx={{
+                      textDecoration: "none",
+                      "&:hover": {
+                        fontWeight: "bolder",
+                      },
+                    }}
                   >
                     My Account
                   </Link>
                 </MenuItem>
 
                 <MenuItem
-                  onClick={() => {
-                    handleLogout();
-                    handleMenuClose();
+                  onClick={handleLogout}
+                  sx={{
+                    textDecoration: "none",
+                    "&:hover": {
+                      fontWeight: "bolder",
+                    },
                   }}
                 >
                   Logout
