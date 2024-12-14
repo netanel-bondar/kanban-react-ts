@@ -42,7 +42,7 @@ function LoginForm({
         variant="outlined"
         fullWidth
         margin="normal"
-        required
+        // required
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
@@ -51,7 +51,7 @@ function LoginForm({
         variant="outlined"
         fullWidth
         margin="normal"
-        required
+        // required
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}

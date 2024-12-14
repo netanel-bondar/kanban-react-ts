@@ -32,7 +32,10 @@ const HomePage: FC = () => {
   const [newTitle, setNewTitle] = useState("");
 
   const AddBoard = () => {
-    if (!newTitle.trim()) return;
+    if (!newTitle.trim()) {
+      setBoards([...boards, { id: uuidv4(), title: `Board ${boards.length}` }]);
+      return;
+    }
     const newBoard = {
       id: uuidv4(),
       title: newTitle,
@@ -43,8 +46,7 @@ const HomePage: FC = () => {
     setNewTitle("");
   };
 
-  const removeBoard = (boardId: string, event: MouseEvent) => {
-    event.stopPropagation();
+  const removeBoard = (boardId: string) => {
     setBoards((boards) => boards.filter((board) => board.id !== boardId));
   };
 
@@ -102,7 +104,7 @@ const HomePage: FC = () => {
         <BoardsGrid
           boards={filteredBoards}
           onBoardClick={(id) => navigate(`/app/board/${id}`)}
-          onRemoveClick={(boardId, event) => removeBoard(boardId, event)}
+          onRemoveClick={(boardId) => removeBoard(boardId)}
         />
       </Grid>
 
@@ -117,7 +119,7 @@ const HomePage: FC = () => {
             value={newTitle}
             variant="outlined"
             margin="normal"
-            required
+            // required
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setNewTitle(e.target.value)
             }
@@ -140,7 +142,7 @@ const HomePage: FC = () => {
 
           <Button
             onClick={AddBoard}
-            disabled={!newTitle.trim()}
+            // disabled={!newTitle.trim()}
             sx={{
               color: "black",
               "&:hover": {

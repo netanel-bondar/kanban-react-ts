@@ -15,8 +15,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = (username: string, password: string) => {
-    if (username === dummyUser.username && password === dummyUser.password) {
+  const login = (username?: string, password?: string) => {
+    if (
+      !username ||
+      !password ||
+      (username === dummyUser.username && password === dummyUser.password)
+    ) {
       setIsAuthenticated(true);
       return true;
     }

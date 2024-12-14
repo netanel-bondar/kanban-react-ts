@@ -1,12 +1,20 @@
-import { MouseEvent, FC } from "react";
-import { Grid2 as Grid, Box, Typography, ButtonBase } from "@mui/material";
+import { MouseEvent, FC, useState } from "react";
+import {
+  Grid2 as Grid,
+  Box,
+  Typography,
+  ButtonBase,
+  Menu,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
 import { Board } from "../typings";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 interface BoardsGridProps {
   boards: Board[];
   onBoardClick: (id: string) => void;
-  onRemoveClick: (id: string, event: MouseEvent) => void;
+  onRemoveClick: (id: string) => void;
 }
 
 const BoardsGrid: FC<BoardsGridProps> = ({
@@ -14,6 +22,20 @@ const BoardsGrid: FC<BoardsGridProps> = ({
   onBoardClick,
   onRemoveClick,
 }) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedBoardId, setSelectedBoardId] = useState<null | string>(null);
+
+  const handleClick = (event: MouseEvent<HTMLElement>, boardId: string) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+    setSelectedBoardId(boardId);
+  };
+  const handleClose = (event: MouseEvent) => {
+    event.stopPropagation();
+    setAnchorEl(null);
+    setSelectedBoardId(null);
+  };
+
   return (
     <>
       {boards.map((board) => (
@@ -57,15 +79,33 @@ const BoardsGrid: FC<BoardsGridProps> = ({
               >
                 {board.title}
               </Typography>
-              <MoreVertIcon
+              <IconButton
+                id={`board-menu-${board.id}`}
+                onClick={(event) => handleClick(event, board.id)}
                 sx={{
                   position: "absolute",
                   top: 8,
                   right: 8,
                   color: "black",
                 }}
-                onClick={(event) => onRemoveClick(board.id, event)}
-              ></MoreVertIcon>
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id={`board-menu-${board.id}`}
+                anchorEl={anchorEl}
+                open={selectedBoardId === board.id}
+                onClose={handleClose}
+              >
+                <MenuItem
+                  onClick={(event) => {
+                    onRemoveClick(board.id);
+                    handleClose(event);
+                  }}
+                >
+                  Delete
+                </MenuItem>
+              </Menu>
             </Box>
           </ButtonBase>
         </Grid>
