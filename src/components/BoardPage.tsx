@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Typography, Button, Stack } from "@mui/material";
+import { Box, Typography, Button, Grid2 as Grid } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { v4 as uuidv4 } from "uuid";
 import { TaskList, Card } from "../typings";
@@ -70,29 +70,30 @@ const BoardPage = () => {
         Board id: {boardId}
       </Typography>
 
-      <Stack direction="row" spacing={3} sx={{ minWidth: "max-content" }}>
+      <Button
+        variant="contained"
+        size="medium"
+        startIcon={<AddBoxIcon />}
+        sx={{
+          width: 200,
+          backgroundColor: "#D3D0CB",
+          color: "#000000",
+          textTransform: "none",
+          borderRadius: "10px",
+          marginBottom: 2,
+          "&:hover": {
+            backgroundColor: "#B3B0AB",
+          },
+        }}
+        onClick={addList}
+      >
+        Add List
+      </Button>
+
+      <Grid container spacing={3}>
         <Lists lists={lists} removeList={removeList} addCard={addCard} />
-        <Box>
-          <Button
-            variant="contained"
-            size="medium"
-            startIcon={<AddBoxIcon />}
-            sx={{
-              width: 200,
-              backgroundColor: "#D3D0CB",
-              color: "#000000",
-              textTransform: "none",
-              borderRadius: "10px",
-              "&:hover": {
-                backgroundColor: "#B3B0AB",
-              },
-            }}
-            onClick={addList}
-          >
-            Add List
-          </Button>
-        </Box>
-      </Stack>
+      </Grid>
+      <Box></Box>
     </Box>
   );
 };

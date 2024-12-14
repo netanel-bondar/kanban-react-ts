@@ -1,4 +1,11 @@
-import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  Typography,
+  Grid2 as Grid,
+} from "@mui/material";
 import { TaskList } from "../typings";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
@@ -13,7 +20,7 @@ const Lists: FC<ListsProps> = ({ lists, removeList, addCard }) => {
   return (
     <>
       {lists.map((list) => (
-        <div key={list.id}>
+        <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={list.id}>
           <Paper
             variant="elevation"
             elevation={3}
@@ -21,8 +28,6 @@ const Lists: FC<ListsProps> = ({ lists, removeList, addCard }) => {
             sx={{
               p: 2,
               backgroundColor: "#D3D0CB",
-              width: 200,
-              height: 400,
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
@@ -36,7 +41,11 @@ const Lists: FC<ListsProps> = ({ lists, removeList, addCard }) => {
               <CloseIcon />
             </IconButton>
 
-            <Typography key={list.id} variant="h6" sx={{ textAlign: "center" }}>
+            <Typography
+              key={list.id}
+              variant="h6"
+              sx={{ textAlign: "center", marginBottom: 2 }}
+            >
               {list.title}
             </Typography>
 
@@ -49,9 +58,8 @@ const Lists: FC<ListsProps> = ({ lists, removeList, addCard }) => {
                   sx={{
                     p: 2,
                     backgroundColor: "#D3D0CB",
-                    width: 170,
-                    height: 70,
-                    marginTop: 1,
+
+                    marginBottom: 2,
                   }}
                 >
                   <div>
@@ -85,7 +93,7 @@ const Lists: FC<ListsProps> = ({ lists, removeList, addCard }) => {
               </Button>
             </Box>
           </Paper>
-        </div>
+        </Grid>
       ))}
     </>
   );
