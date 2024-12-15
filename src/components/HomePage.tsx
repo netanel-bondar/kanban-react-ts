@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  lighten,
 } from "@mui/material";
 import BoardsGrid from "./BoardsGrid";
 import { v4 as uuidv4 } from "uuid";
@@ -34,6 +33,7 @@ const HomePage: FC = () => {
   const AddBoard = () => {
     if (!newTitle.trim()) {
       setBoards([...boards, { id: uuidv4(), title: `Board ${boards.length}` }]);
+      setOpenModal(false);
       return;
     }
     const newBoard = {
@@ -69,7 +69,7 @@ const HomePage: FC = () => {
       >
         <Button
           variant="contained"
-          size="small"
+          size="medium"
           startIcon={<AddBoxIcon />}
           sx={{
             backgroundColor: "#D3D0CB",
@@ -79,7 +79,7 @@ const HomePage: FC = () => {
             transition: "all 0.05s linear",
             "&:hover": {
               transform: "scale(1.1)",
-              backgroundColor: lighten("#D3D0CB", 0.2),
+              backgroundColor: "#B3B0AB",
             },
           }}
           onClick={() => setOpenModal(true)}
