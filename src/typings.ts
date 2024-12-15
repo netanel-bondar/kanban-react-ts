@@ -10,6 +10,8 @@ export interface Board {
     id: string;
     title: string;
     cards: Card[];
+    creationDate: string;
+    creationTime: string;
   }
 
   export interface Card {

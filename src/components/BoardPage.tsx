@@ -22,7 +22,11 @@ const BoardPage = () => {
       id: uuidv4(),
       title: `List ${lists.length + 1}`,
       cards: [],
+      creationDate: new Date().toISOString().split("T")[0],
+      creationTime: new Date().toLocaleTimeString("en-GB", { hour12: false }),
     };
+    console.log(newList.creationDate);
+    console.log(newList.creationTime);
     setLists([...lists, newList]);
   };
 
