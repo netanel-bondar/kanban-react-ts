@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { Board } from "../typings";
 import { StyledTextField } from "./LoginForm";
+import { arrayMove } from "@dnd-kit/sortable";
 
 const HomePage: FC = () => {
   const initBoardsArray = JSON.parse(localStorage.getItem("boards") || "[]");
@@ -48,6 +49,12 @@ const HomePage: FC = () => {
 
   const removeBoard = (boardId: string) => {
     setBoards((boards) => boards.filter((board) => board.id !== boardId));
+  };
+
+  const swapBoards = (oldIndex: number, newIndex: number) => {
+    setBoards((boards) => {
+      return arrayMove(boards, oldIndex, newIndex);
+    });
   };
 
   const filteredBoards = boards.filter((board) =>
@@ -100,13 +107,14 @@ const HomePage: FC = () => {
         </Box>
       </Stack>
 
-      <Grid container spacing={4} sx={{ maxWidth: "90vw", margin: "auto" }}>
-        <BoardsGrid
-          boards={filteredBoards}
-          onBoardClick={(id) => navigate(`/app/board/${id}`)}
-          onRemoveClick={(boardId) => removeBoard(boardId)}
-        />
-      </Grid>
+      {/* <Grid container spacing={4} sx={{ maxWidth: "90vw", margin: "auto" }}> */}
+      <BoardsGrid
+        boards={filteredBoards}
+        onBoardClick={(id) => navigate(`/app/board/${id}`)}
+        onRemoveClick={(boardId) => removeBoard(boardId)}
+        swapBoards={swapBoards}
+      />
+      {/* </Grid> */}
 
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>
         <DialogTitle sx={{ textAlign: "center", mb: 1 }}>
