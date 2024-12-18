@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FC, MouseEvent, useEffect } from "react";
+import { useState, ChangeEvent, FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,

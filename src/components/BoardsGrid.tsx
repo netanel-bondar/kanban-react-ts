@@ -1,15 +1,6 @@
-import { MouseEvent, FC, useState, useEffect, act, useRef } from "react";
-import {
-  Grid2 as Grid,
-  Box,
-  Typography,
-  ButtonBase,
-  Menu,
-  MenuItem,
-  IconButton,
-} from "@mui/material";
+import { MouseEvent, FC, useState, useRef } from "react";
+import { Grid2 as Grid, Box, Typography, Menu, MenuItem } from "@mui/material";
 import { Board } from "../typings";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -31,37 +22,35 @@ const BoardsGrid: FC<BoardsGridProps> = ({
   onRemoveClick,
   swapBoards,
 }) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedBoardId, setSelectedBoardId] = useState<null | string>(null);
 
-  const handleClick = (event: MouseEvent<HTMLElement>, boardId: string) => {
-    event.stopPropagation();
-    setAnchorEl(event.currentTarget);
-    setSelectedBoardId(boardId);
-  };
-  const handleClose = (event: MouseEvent) => {
-    event.stopPropagation();
-    setAnchorEl(null);
-    setSelectedBoardId(null);
-  };
+  const [menuPosition, setMenuPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
 
   const initialRectRef = useRef<DOMRect | null>(null);
   const finalRectRef = useRef<DOMRect | null>(null);
 
+  const handleContextMenu = (
+    event: MouseEvent<HTMLElement>,
+    boardId: string
+  ) => {
+    event.preventDefault();
+    setSelectedBoardId(boardId);
+    setMenuPosition({ top: event.clientY, left: event.clientX });
+  };
+
+  const handleClose = () => setMenuPosition(null);
+
   const onDragStart = (event: any) => {
     const { active } = event;
-
-    console.log(event);
 
     const element = document.getElementById(active.id);
 
     if (element) {
       initialRectRef.current = element.getBoundingClientRect();
     }
-  };
-
-  const handleMouseDown = (event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent drag start
   };
 
   const onDragEnd = (event: any) => {
@@ -100,68 +89,62 @@ const BoardsGrid: FC<BoardsGridProps> = ({
     };
 
     return (
-      <Box
-        id={board.id}
-        ref={setNodeRef}
-        style={style}
-        {...attributes}
-        {...listeners}
-        sx={{
-          borderRadius: "16px",
-          position: "relative",
-          width: "auto",
-          height: 200,
-          overflow: "hidden",
-          background: "#D3D0CB",
-          cursor: "pointer",
-        }}
-      >
-        <Typography
-          variant="h6"
+      <>
+        <Box
+          id={board.id}
+          ref={setNodeRef}
+          style={style}
+          {...attributes}
+          {...listeners}
+          onContextMenu={(event) => handleContextMenu(event, board.id)}
           sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            color: "black",
-            borderRadius: "4px",
+            borderRadius: "16px",
+            position: "relative",
+            width: "auto",
+            height: 200,
+            overflow: "hidden",
+            background: "#D3D0CB",
+            cursor: "pointer",
           }}
         >
-          {board.title}
-        </Typography>
-        <IconButton
-          id={`board-menu-${board.id}`}
-          onClick={(event) => {
-            event.stopPropagation();
-            handleClick(event, board.id);
-            console.log("clicked");
-          }}
-          onMouseDown={handleMouseDown}
-          sx={{
-            position: "absolute",
-            top: 8,
-            right: 8,
-            color: "black",
-          }}
-        >
-          <MoreVertIcon />
-        </IconButton>
+          <Typography
+            variant="h6"
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              color: "black",
+              borderRadius: "4px",
+            }}
+          >
+            {board.title}
+          </Typography>
+        </Box>
+
         <Menu
           id={`board-menu-${board.id}`}
-          anchorEl={anchorEl}
-          open={selectedBoardId === board.id}
+          anchorReference="anchorPosition"
+          anchorPosition={
+            menuPosition
+              ? { top: menuPosition.top, left: menuPosition.left }
+              : undefined
+          }
+          open={Boolean(menuPosition) && board.id === selectedBoardId}
           onClose={handleClose}
         >
+          <MenuItem onClick={handleClose}>Edit</MenuItem>
+          <MenuItem onClick={handleClose}>Star</MenuItem>
           <MenuItem
-            onClick={(event) => {
+            onClick={() => {
               onRemoveClick(board.id);
-              handleClose(event);
+              handleClose();
             }}
           >
             Delete
           </MenuItem>
         </Menu>
-      </Box>
+      </>
     );
   };
 
