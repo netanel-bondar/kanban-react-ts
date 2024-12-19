@@ -107,14 +107,14 @@ const HomePage: FC = () => {
         </Box>
       </Stack>
 
-      {/* <Grid container spacing={4} sx={{ maxWidth: "90vw", margin: "auto" }}> */}
+      <Grid container spacing={4} sx={{ maxWidth: "90vw", margin: "auto" }}>
       <BoardsGrid
         boards={filteredBoards}
         onBoardClick={(id) => navigate(`/app/board/${id}`)}
         onRemoveClick={(boardId) => removeBoard(boardId)}
         swapBoards={swapBoards}
       />
-      {/* </Grid> */}
+      </Grid>
 
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>
         <DialogTitle sx={{ textAlign: "center", mb: 1 }}>

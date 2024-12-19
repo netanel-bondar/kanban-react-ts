@@ -12,11 +12,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { closestCenter, DndContext } from "@dnd-kit/core";
-import {
-  SortableContext,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 interface BoardsGridProps {
@@ -178,12 +174,11 @@ const BoardsGrid: FC<BoardsGridProps> = ({
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
     >
-      <SortableContext items={boards} strategy={verticalListSortingStrategy}>
+      <SortableContext items={boards}>
         {boards.map((board) => (
-          // <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2 }} key={board.id}>
-          <SortableBoard key={board.id} board={board} />
-          // {/* </ButtonBase> */}
-          // </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2 }} key={board.id}>
+            <SortableBoard key={board.id} board={board} />
+          </Grid>
         ))}
       </SortableContext>
     </DndContext>
