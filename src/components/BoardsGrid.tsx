@@ -1,6 +1,16 @@
 import { MouseEvent, FC, useState, useRef } from "react";
-import { Grid2 as Grid, Box, Typography, Menu, MenuItem } from "@mui/material";
+import {
+  Grid2 as Grid,
+  Box,
+  Typography,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+} from "@mui/material";
 import { Board } from "../typings";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -133,14 +143,28 @@ const BoardsGrid: FC<BoardsGridProps> = ({
           open={Boolean(menuPosition) && board.id === selectedBoardId}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Edit</MenuItem>
-          <MenuItem onClick={handleClose}>Star</MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <EditOutlinedIcon />
+            </ListItemIcon>
+            Edit
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            {" "}
+            <ListItemIcon>
+              <StarBorderOutlinedIcon />
+            </ListItemIcon>{" "}
+            Star
+          </MenuItem>
           <MenuItem
             onClick={() => {
               onRemoveClick(board.id);
               handleClose();
             }}
           >
+            <ListItemIcon>
+              <DeleteOutlinedIcon />
+            </ListItemIcon>
             Delete
           </MenuItem>
         </Menu>
