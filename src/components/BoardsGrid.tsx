@@ -14,12 +14,14 @@ import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { StyledTextField } from "./LoginForm";
 
 interface BoardsGridProps {
   boards: Board[];
   onBoardClick: (id: string) => void;
   onRemoveClick: (id: string) => void;
   swapBoards: (oldIndex: number, newIndex: number) => void;
+  setBoards: React.Dispatch<React.SetStateAction<Board[]>>;
 }
 
 const BoardsGrid: FC<BoardsGridProps> = ({
@@ -27,6 +29,7 @@ const BoardsGrid: FC<BoardsGridProps> = ({
   onBoardClick,
   onRemoveClick,
   swapBoards,
+  setBoards,
 }) => {
   const [selectedBoardId, setSelectedBoardId] = useState<null | string>(null);
 
@@ -85,6 +88,26 @@ const BoardsGrid: FC<BoardsGridProps> = ({
     swapBoards(oldIndex, newIndex);
   };
 
+  const [editingBoardId, setEditingBoardId] = useState<string | null>(null);
+  const [editedTitle, setEditedTitle] = useState("");
+
+  const handleEditClick = (boardId: string, initialTitle: string) => {
+    setEditingBoardId(boardId);
+    setEditedTitle(initialTitle);
+    handleClose();
+  };
+
+  const handleSaveEdit = (boardId: string) => {
+    const updatedBoards = boards.map((board) => {
+      if (board.id === boardId) {
+        return { ...board, title: editedTitle };
+      }
+      return board;
+    });
+    setBoards(updatedBoards);
+    setEditingBoardId(null);
+  };
+
   const SortableBoard: FC<{ board: Board }> = ({ board }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
       useSortable({ id: board.id });
@@ -93,6 +116,38 @@ const BoardsGrid: FC<BoardsGridProps> = ({
       transition,
       transform: CSS.Transform.toString(transform),
     };
+
+    if (editingBoardId === board.id) {
+      return (
+        <Box
+          sx={{
+            p: 2,
+            borderRadius: "16px",
+            position: "relative",
+            width: "auto",
+            height: 200,
+            overflow: "hidden",
+            background: "#D3D0CB",
+            cursor: "pointer",
+          }}
+        >
+          {" "}
+          <StyledTextField
+            autoFocus
+            sx={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+            value={editedTitle}
+            onChange={(e) => setEditedTitle(e.target.value)}
+            onBlur={() => handleSaveEdit(board.id)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSaveEdit(board.id);
+                e.preventDefault();
+              }
+            }}
+          />
+        </Box>
+      );
+    }
 
     return (
       <>
@@ -139,7 +194,7 @@ const BoardsGrid: FC<BoardsGridProps> = ({
           open={Boolean(menuPosition) && board.id === selectedBoardId}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={() => handleEditClick(board.id, board.title)}>
             <ListItemIcon>
               <EditOutlinedIcon />
             </ListItemIcon>

@@ -4,7 +4,6 @@ import {
   Button,
   Stack,
   Box,
-  TextField,
   Grid2 as Grid,
   Dialog,
   DialogTitle,
@@ -95,7 +94,7 @@ const HomePage: FC = () => {
         </Button>
 
         <Box sx={{ width: "300px" }}>
-          <TextField
+          <StyledTextField
             fullWidth
             variant="outlined"
             label="Search Board"
@@ -108,12 +107,13 @@ const HomePage: FC = () => {
       </Stack>
 
       <Grid container spacing={4} sx={{ maxWidth: "90vw", margin: "auto" }}>
-      <BoardsGrid
-        boards={filteredBoards}
-        onBoardClick={(id) => navigate(`/app/board/${id}`)}
-        onRemoveClick={(boardId) => removeBoard(boardId)}
-        swapBoards={swapBoards}
-      />
+        <BoardsGrid
+          boards={filteredBoards}
+          onBoardClick={(id) => navigate(`/app/board/${id}`)}
+          onRemoveClick={(boardId) => removeBoard(boardId)}
+          swapBoards={swapBoards}
+          setBoards={setBoards}
+        />
       </Grid>
 
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>
