@@ -108,12 +108,12 @@ const HomePage: FC = () => {
       </Stack>
 
       <Grid container spacing={4} sx={{ maxWidth: "90vw", margin: "auto" }}>
-      <BoardsGrid
-        boards={filteredBoards}
-        onBoardClick={(id) => navigate(`/app/board/${id}`)}
-        onRemoveClick={(boardId) => removeBoard(boardId)}
-        swapBoards={swapBoards}
-      />
+        <BoardsGrid
+          boards={filteredBoards}
+          onBoardClick={(id) => navigate(`/app/board/${id}`)}
+          onRemoveClick={(boardId) => removeBoard(boardId)}
+          swapBoards={swapBoards}
+        />
       </Grid>
 
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>

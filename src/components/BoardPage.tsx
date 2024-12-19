@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 import { TaskList, Card } from "../typings";
 import Lists from "./Lists";
 import { StyledTextField } from "./LoginForm";
-import Masonry from "@mui/lab/Masonry";
+import { arrayMove } from "@dnd-kit/sortable";
 
 const BoardPage = () => {
   const { boardId } = useParams<{ boardId: string }>();
@@ -26,6 +26,7 @@ const BoardPage = () => {
 
   useEffect(() => {
     localStorage.setItem(`lists${boardId}`, JSON.stringify(lists));
+    // console.log("ey");
   }, [lists]);
 
   const [openModal, setOpenModal] = useState(false);
@@ -62,6 +63,26 @@ const BoardPage = () => {
     setLists((lists) => lists.filter((list) => list.id !== listId));
   };
 
+  const swapLists = (oldIndex: number, newIndex: number) => {
+    setLists((lists) => {
+      return arrayMove(lists, oldIndex, newIndex);
+    });
+  };
+
+  const swapCards = (listId: string, oldIndex: number, newIndex: number) => {
+    const listIndex = lists.findIndex((list) => list.id === listId);
+    if (listIndex === -1) return;
+
+    let newCards = [...lists[listIndex].cards];
+
+    newCards = arrayMove(newCards, oldIndex, newIndex);
+
+    let newLists = [...lists];
+    newLists[listIndex].cards = newCards;
+
+    setLists(newLists);
+  };
+
   const [cards, setCards] = useState<Card[]>([]);
 
   const addCard = (
@@ -77,7 +98,7 @@ const BoardPage = () => {
               cards: [
                 ...list.cards,
                 {
-                  id: Date.now().toString(),
+                  id: uuidv4(),
                   title: cardTitle,
                   description: cardDescription,
                 },
@@ -172,9 +193,15 @@ const BoardPage = () => {
       </Dialog>
 
       <Box sx={{ width: "100%", margin: "0 auto" }}>
-        <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} spacing={2}>
-          <Lists lists={lists} removeList={removeList} addCard={addCard} />
-        </Masonry>
+        <Grid container spacing={4} sx={{ maxWidth: "90vw", margin: "auto" }}>
+          <Lists
+            lists={lists}
+            removeList={removeList}
+            swapLists={swapLists}
+            addCard={addCard}
+            swapCards={swapCards}
+          />
+        </Grid>
       </Box>
     </Box>
   );

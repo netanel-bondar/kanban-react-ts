@@ -184,5 +184,4 @@ const BoardsGrid: FC<BoardsGridProps> = ({
     </DndContext>
   );
 };
-
 export default BoardsGrid;
