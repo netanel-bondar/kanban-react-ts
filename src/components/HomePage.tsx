@@ -4,7 +4,6 @@ import {
   Button,
   Stack,
   Box,
-  TextField,
   Grid2 as Grid,
   Dialog,
   DialogTitle,
@@ -95,7 +94,7 @@ const HomePage: FC = () => {
         </Button>
 
         <Box sx={{ width: "300px" }}>
-          <TextField
+          <StyledTextField
             fullWidth
             variant="outlined"
             label="Search Board"
@@ -113,6 +112,7 @@ const HomePage: FC = () => {
           onBoardClick={(id) => navigate(`/app/board/${id}`)}
           onRemoveClick={(boardId) => removeBoard(boardId)}
           swapBoards={swapBoards}
+          setBoards={setBoards}
         />
       </Grid>
 
