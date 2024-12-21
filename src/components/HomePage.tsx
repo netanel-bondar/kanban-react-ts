@@ -32,14 +32,18 @@ const HomePage: FC = () => {
 
   const AddBoard = () => {
     if (!newTitle.trim()) {
-      setBoards([...boards, { id: uuidv4(), title: `Board ${boards.length}` }]);
+      setBoards([
+        ...boards,
+        { id: uuidv4(), title: `Board ${boards.length}`, isStarred: false },
+      ]);
       setOpenModal(false);
       return;
     }
     const newBoard = {
       id: uuidv4(),
       title: newTitle,
-      lists: [],
+      isStarred: false,
+      // lists: [],
     };
     setBoards([...boards, newBoard]);
     setOpenModal(false);

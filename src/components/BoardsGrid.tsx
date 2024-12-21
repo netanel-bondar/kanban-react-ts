@@ -10,6 +10,7 @@ import {
 import { Board } from "../typings";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import StarIcon from "@mui/icons-material/Star";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
@@ -117,46 +118,51 @@ const BoardsGrid: FC<BoardsGridProps> = ({
       transform: CSS.Transform.toString(transform),
     };
 
-    if (editingBoardId === board.id) {
-      return (
-        <Box
+    const draggableAttributes =
+      editingBoardId !== board.id
+        ? { ref: setNodeRef, style: style, ...attributes, ...listeners }
+        : {};
+
+    const textField =
+      editingBoardId === board.id ? (
+        <StyledTextField
+          autoFocus
           sx={{
-            p: 2,
-            borderRadius: "16px",
-            position: "relative",
-            width: "auto",
-            height: 200,
-            overflow: "hidden",
-            background: "#D3D0CB",
-            cursor: "pointer",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+          value={editedTitle}
+          onChange={(e) => setEditedTitle(e.target.value)}
+          onBlur={() => handleSaveEdit(board.id)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSaveEdit(board.id);
+              e.preventDefault();
+            }
+          }}
+        />
+      ) : (
+        <Typography
+          variant="h6"
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            color: "black",
+            borderRadius: "4px",
           }}
         >
-          {" "}
-          <StyledTextField
-            autoFocus
-            sx={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-            value={editedTitle}
-            onChange={(e) => setEditedTitle(e.target.value)}
-            onBlur={() => handleSaveEdit(board.id)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSaveEdit(board.id);
-                e.preventDefault();
-              }
-            }}
-          />
-        </Box>
+          {board.title}
+        </Typography>
       );
-    }
 
     return (
       <>
         <Box
           id={board.id}
-          ref={setNodeRef}
-          style={style}
-          {...attributes}
-          {...listeners}
+          {...draggableAttributes}
           onContextMenu={(event) => handleContextMenu(event, board.id)}
           sx={{
             borderRadius: "16px",
@@ -168,19 +174,16 @@ const BoardsGrid: FC<BoardsGridProps> = ({
             cursor: "pointer",
           }}
         >
-          <Typography
-            variant="h6"
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: "black",
-              borderRadius: "4px",
-            }}
-          >
-            {board.title}
-          </Typography>
+          {textField}
+          {board.isStarred && (
+            <StarIcon
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+              }}
+            />
+          )}
         </Box>
 
         <Menu
@@ -200,7 +203,12 @@ const BoardsGrid: FC<BoardsGridProps> = ({
             </ListItemIcon>
             Edit
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem
+            onClick={() => {
+              board.isStarred = !board.isStarred;
+              handleClose();
+            }}
+          >
             {" "}
             <ListItemIcon>
               <StarBorderOutlinedIcon />
@@ -230,11 +238,19 @@ const BoardsGrid: FC<BoardsGridProps> = ({
       onDragEnd={onDragEnd}
     >
       <SortableContext items={boards}>
-        {boards.map((board) => (
-          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2 }} key={board.id}>
-            <SortableBoard key={board.id} board={board} />
-          </Grid>
-        ))}
+        {boards
+          .filter((board) => board.isStarred)
+          .concat(boards.filter((board) => !board.isStarred))
+          .map((board) => {
+            return (
+              <Grid
+                size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2 }}
+                key={board.id}
+              >
+                <SortableBoard key={board.id} board={board} />
+              </Grid>
+            );
+          })}
       </SortableContext>
     </DndContext>
   );

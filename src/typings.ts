@@ -2,6 +2,7 @@
 export interface Board {
     id: string; 
     title: string;
+    isStarred: boolean;
     // imageUrl: string; 
    // lists: TaskList[];
   }
