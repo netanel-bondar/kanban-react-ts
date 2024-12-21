@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, MouseEvent } from "react";
 import {
   Button,
   Paper,
@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { TaskList } from "../typings";
 
-import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
@@ -24,13 +23,14 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import Cards from "./Cards";
-// import { menuPosition, changeMenuPosition } from "../Global";
+import { useMenuContext } from "../context/MenuContext";
 
 interface ListsProps {
   lists: TaskList[];
   removeList: (listId: string) => void;
   swapLists: (oldIndex: number, newIndex: number) => void;
   addCard: (listId: string, cardTitle: string, cardDescription: string) => void;
+  removeCard: (listId: string, cardId: string) => void;
   swapCards: (listId: string, oldIndex: number, newIndex: number) => void;
 }
 const Lists: FC<ListsProps> = ({
@@ -38,18 +38,15 @@ const Lists: FC<ListsProps> = ({
   removeList,
   swapLists,
   addCard,
+  removeCard,
   swapCards,
 }) => {
   const [openModalForList, setOpenModalForList] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
 
-  const [selectedListId, setSelectedListId] = useState<null | string>(null);
-
-  const [menuListPosition, setMenuListPosition] = useState<{
-    top: number;
-    left: number;
-  } | null>(null);
+  const { menuPosition, setMenuPosition, selectedNodeId, setSelectedNodeId } =
+    useMenuContext();
 
   const handleAddCard = (
     listId: string,
@@ -81,15 +78,15 @@ const Lists: FC<ListsProps> = ({
   };
 
   const handleClose = () => {
-    setSelectedListId(null);
-    setMenuListPosition(null);
+    setSelectedNodeId(null);
+    setMenuPosition(null);
   };
 
-  const handleContextMenu = (event: any, listId: string) => {
+  const handleContextMenu = (event: MouseEvent, listId: string) => {
     event.preventDefault();
 
-    setSelectedListId(listId);
-    setMenuListPosition({ top: event.clientY, left: event.clientX });
+    setSelectedNodeId(listId);
+    setMenuPosition(event);
   };
 
   const SortableList: FC<{ list: TaskList }> = ({ list }) => {
@@ -130,7 +127,12 @@ const Lists: FC<ListsProps> = ({
               {list.title}
             </Typography>
 
-            <Cards cards={list.cards} listId={list.id} swapCards={swapCards} />
+            <Cards
+              cards={list.cards}
+              listId={list.id}
+              swapCards={swapCards}
+              removeCard={removeCard}
+            />
           </Paper>
         </Grid>
 
@@ -138,11 +140,11 @@ const Lists: FC<ListsProps> = ({
           id={`list-menu-${list.id}`}
           anchorReference="anchorPosition"
           anchorPosition={
-            menuListPosition
-              ? { top: menuListPosition.top, left: menuListPosition.left }
+            menuPosition
+              ? { top: menuPosition.top, left: menuPosition.left }
               : undefined
           }
-          open={Boolean(menuListPosition) && list.id === selectedListId}
+          open={Boolean(menuPosition) && list.id === selectedNodeId}
           onClose={handleClose}
         >
           <MenuItem
@@ -161,13 +163,6 @@ const Lists: FC<ListsProps> = ({
               <EditOutlinedIcon />
             </ListItemIcon>
             Edit
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            {" "}
-            <ListItemIcon>
-              <StarBorderOutlinedIcon />
-            </ListItemIcon>{" "}
-            Star
           </MenuItem>
           <MenuItem
             onClick={() => {

@@ -16,6 +16,7 @@ import { closestCenter, DndContext } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { StyledTextField } from "./LoginForm";
+import { useMenuContext } from "../context/MenuContext";
 
 interface BoardsGridProps {
   boards: Board[];
@@ -32,23 +33,16 @@ const BoardsGrid: FC<BoardsGridProps> = ({
   swapBoards,
   setBoards,
 }) => {
-  const [selectedBoardId, setSelectedBoardId] = useState<null | string>(null);
-
-  const [menuPosition, setMenuPosition] = useState<{
-    top: number;
-    left: number;
-  } | null>(null);
+  const { menuPosition, setMenuPosition, selectedNodeId, setSelectedNodeId } =
+    useMenuContext();
 
   const initialRectRef = useRef<DOMRect | null>(null);
   const finalRectRef = useRef<DOMRect | null>(null);
 
-  const handleContextMenu = (
-    event: MouseEvent<HTMLElement>,
-    boardId: string
-  ) => {
+  const handleContextMenu = (event: MouseEvent, boardId: string) => {
     event.preventDefault();
-    setSelectedBoardId(boardId);
-    setMenuPosition({ top: event.clientY, left: event.clientX });
+    setSelectedNodeId(boardId);
+    setMenuPosition(event);
   };
 
   const handleClose = () => setMenuPosition(null);
@@ -194,7 +188,7 @@ const BoardsGrid: FC<BoardsGridProps> = ({
               ? { top: menuPosition.top, left: menuPosition.left }
               : undefined
           }
-          open={Boolean(menuPosition) && board.id === selectedBoardId}
+          open={Boolean(menuPosition) && board.id === selectedNodeId}
           onClose={handleClose}
         >
           <MenuItem onClick={() => handleEditClick(board.id, board.title)}>

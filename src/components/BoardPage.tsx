@@ -107,6 +107,19 @@ const BoardPage = () => {
     );
   };
 
+  const removeCard = (listId: string, cardId: string) => {
+    setLists((prevTaskLists) =>
+      prevTaskLists.map((list) =>
+        list.id === listId
+          ? {
+              ...list,
+              cards: list.cards.filter((card) => card.id !== cardId),
+            }
+          : list
+      )
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -197,6 +210,7 @@ const BoardPage = () => {
             removeList={removeList}
             swapLists={swapLists}
             addCard={addCard}
+            removeCard={removeCard}
             swapCards={swapCards}
           />
         </Grid>

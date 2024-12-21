@@ -1,18 +1,20 @@
 import { Paper, Typography } from "@mui/material";
 import { Card } from "../typings";
-import { FC, memo } from "react";
+import { FC, memo, MouseEvent } from "react";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+// import { useMenuContext } from "../context/MenuContext";
 
 interface CardsProps {
   cards: Card[];
   listId: string;
   swapCards: (listId: string, oldIndex: number, newIndex: number) => void;
+  removeCard: (listId: string, cardId: string) => void;
 }
 
 const Cards: FC<CardsProps> = memo(
-  ({ cards, listId, swapCards }: CardsProps) => {
+  ({ cards, listId, swapCards, removeCard }: CardsProps) => {
     const onDragEnd = (event: any) => {
       const { active, over } = event;
 
@@ -36,33 +38,35 @@ const Cards: FC<CardsProps> = memo(
       };
 
       return (
-        <div key={card.id}>
-          <Paper
-            variant="elevation"
-            elevation={3}
-            square={false}
-            ref={setNodeRef}
-            style={style}
-            {...attributes}
-            {...listeners}
-            sx={{
-              p: 2,
-              backgroundColor: "#D3D0CB",
-              marginBottom: 2,
-              "&:hover": {
-                transform: "scale(1.04)",
-                backgroundColor: "#B3B0AB",
-              },
-            }}
-          >
-            <div>
-              <Typography sx={{ fontWeight: "bold", fontSize: "1rem" }}>
-                {card.title}
-              </Typography>
-              <Typography variant="body2">{card.description}</Typography>
-            </div>
-          </Paper>
-        </div>
+        <>
+          <div key={card.id}>
+            <Paper
+              variant="elevation"
+              elevation={3}
+              square={false}
+              ref={setNodeRef}
+              style={style}
+              {...attributes}
+              {...listeners}
+              sx={{
+                p: 2,
+                backgroundColor: "#D3D0CB",
+                marginBottom: 2,
+                "&:hover": {
+                  transform: "scale(1.04)",
+                  backgroundColor: "#B3B0AB",
+                },
+              }}
+            >
+              <div>
+                <Typography sx={{ fontWeight: "bold", fontSize: "1rem" }}>
+                  {card.title}
+                </Typography>
+                <Typography variant="body2">{card.description}</Typography>
+              </div>
+            </Paper>
+          </div>
+        </>
       );
     };
 
