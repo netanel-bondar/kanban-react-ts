@@ -100,7 +100,6 @@ const Lists: FC<ListsProps> = ({
       transition,
       transform: CSS.Transform.toString(transform),
     };
-    // console.log("Lists component rendered");
     return (
       <>
         <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={list.id}>
