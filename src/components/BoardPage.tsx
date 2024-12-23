@@ -200,6 +200,7 @@ const BoardPage = () => {
             swapLists={swapLists}
             addCard={addCard}
             swapCards={swapCards}
+            setLists={setLists}
           />
         </Grid>
       </Box>

@@ -32,6 +32,7 @@ interface ListsProps {
   swapLists: (oldIndex: number, newIndex: number) => void;
   addCard: (listId: string, cardTitle: string, cardDescription: string) => void;
   swapCards: (listId: string, oldIndex: number, newIndex: number) => void;
+  setLists: React.Dispatch<React.SetStateAction<TaskList[]>>;
 }
 const Lists: FC<ListsProps> = ({
   lists,
@@ -39,6 +40,7 @@ const Lists: FC<ListsProps> = ({
   swapLists,
   addCard,
   swapCards,
+  setLists,
 }) => {
   const [openModalForList, setOpenModalForList] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
@@ -92,7 +94,15 @@ const Lists: FC<ListsProps> = ({
     setMenuListPosition({ top: event.clientY, left: event.clientX });
   };
 
-  const SortableList: FC<{ list: TaskList }> = ({ list }) => {
+  const [editingListId, setEditingListId] = useState<string | null>(null);
+  const [editedTitle, setEditedTitle] = useState("");
+
+  // const SortableList: FC<{ list: TaskList }> = ({ list }) => {
+  const SortableList: FC<{
+    list: TaskList;
+    editingListId: string | null;
+    setEditingListId: React.Dispatch<React.SetStateAction<string | null>>;
+  }> = ({ list, editingListId, setEditingListId }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
       useSortable({ id: list.id });
 
@@ -101,6 +111,42 @@ const Lists: FC<ListsProps> = ({
       transform: CSS.Transform.toString(transform),
     };
     // console.log("Lists component rendered");
+
+    const handleEditClick = (listId: string, initialTitle: string) => {
+      setEditingListId(listId);
+      setEditedTitle(initialTitle);
+      handleClose();
+    };
+
+    const handleSaveEdit = (listId: string) => {
+      const updatedLists = lists.map((list) => {
+        if (list.id === listId) {
+          return { ...list, title: editedTitle };
+        }
+        return list;
+      });
+      setLists(updatedLists);
+      setEditingListId(null);
+    };
+
+    const textField =
+      editingListId === list.id ? (
+        <StyledTextField
+          autoFocus
+          value={editedTitle}
+          onChange={(e) => setEditedTitle(e.target.value)}
+          onBlur={() => handleSaveEdit(list.id)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSaveEdit(list.id);
+              e.preventDefault();
+            }
+          }}
+        />
+      ) : (
+        <Typography variant="h6">{list.title}</Typography>
+      );
+
     return (
       <>
         <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={list.id}>
@@ -125,10 +171,9 @@ const Lists: FC<ListsProps> = ({
           >
             <Typography
               key={list.id}
-              variant="h6"
               sx={{ textAlign: "center", marginBottom: 2 }}
             >
-              {list.title}
+              {textField}
             </Typography>
 
             <Cards cards={list.cards} listId={list.id} swapCards={swapCards} />
@@ -157,7 +202,7 @@ const Lists: FC<ListsProps> = ({
             </ListItemIcon>
             Add Card
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={() => handleEditClick(list.id, list.title)}>
             <ListItemIcon>
               <EditOutlinedIcon />
             </ListItemIcon>
@@ -240,7 +285,12 @@ const Lists: FC<ListsProps> = ({
     <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
       <SortableContext items={lists}>
         {lists.map((list) => (
-          <SortableList key={list.id} list={list} />
+          <SortableList
+            key={list.id}
+            list={list}
+            editingListId={editingListId}
+            setEditingListId={setEditingListId}
+          />
         ))}
       </SortableContext>
     </DndContext>
