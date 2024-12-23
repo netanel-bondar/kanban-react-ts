@@ -3,7 +3,7 @@ import { Box, Paper, Tabs, Tab, Avatar, Typography } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {

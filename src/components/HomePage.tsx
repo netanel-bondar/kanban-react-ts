@@ -55,6 +55,10 @@ const HomePage: FC = () => {
   };
 
   const swapBoards = (oldIndex: number, newIndex: number) => {
+    if (boards[oldIndex].isStarred || boards[newIndex].isStarred) {
+      return;
+    }
+
     setBoards((boards) => {
       return arrayMove(boards, oldIndex, newIndex);
     });

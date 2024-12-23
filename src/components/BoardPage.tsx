@@ -26,7 +26,6 @@ const BoardPage = () => {
 
   useEffect(() => {
     localStorage.setItem(`lists${boardId}`, JSON.stringify(lists));
-    // console.log("ey");
   }, [lists]);
 
   const [openModal, setOpenModal] = useState(false);
@@ -52,8 +51,7 @@ const BoardPage = () => {
       creationDate: new Date().toISOString().split("T")[0],
       creationTime: new Date().toLocaleTimeString("en-GB", { hour12: false }),
     };
-    console.log(newList.creationDate);
-    console.log(newList.creationTime);
+
     setLists([...lists, newList]);
     setOpenModal(false);
     setNewTitle("");
@@ -103,6 +101,19 @@ const BoardPage = () => {
                   description: cardDescription,
                 },
               ],
+            }
+          : list
+      )
+    );
+  };
+
+  const removeCard = (listId: string, cardId: string) => {
+    setLists((prevTaskLists) =>
+      prevTaskLists.map((list) =>
+        list.id === listId
+          ? {
+              ...list,
+              cards: list.cards.filter((card) => card.id !== cardId),
             }
           : list
       )
@@ -199,6 +210,7 @@ const BoardPage = () => {
             removeList={removeList}
             swapLists={swapLists}
             addCard={addCard}
+            removeCard={removeCard}
             swapCards={swapCards}
             setLists={setLists}
           />
