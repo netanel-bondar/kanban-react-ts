@@ -1,6 +1,6 @@
 import { Paper, Typography } from "@mui/material";
 import { Card } from "../typings";
-import { FC, memo, MouseEvent } from "react";
+import { FC, memo } from "react";
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -14,7 +14,7 @@ interface CardsProps {
 }
 
 const Cards: FC<CardsProps> = memo(
-  ({ cards, listId, swapCards, removeCard }: CardsProps) => {
+  ({ cards, listId, swapCards }: CardsProps) => {
     const onDragEnd = (event: any) => {
       const { active, over } = event;
 

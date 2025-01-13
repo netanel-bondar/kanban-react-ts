@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { v4 as uuidv4 } from "uuid";
-import { TaskList, Card } from "../typings";
+import { TaskList } from "../typings";
 import Lists from "./Lists";
 import { StyledTextField } from "./LoginForm";
 import { arrayMove } from "@dnd-kit/sortable";
@@ -81,7 +81,7 @@ const BoardPage = () => {
     setLists(newLists);
   };
 
-  const [cards, setCards] = useState<Card[]>([]);
+  // const [cards, setCards] = useState<Card[]>([]);
 
   const addCard = (
     listId: string,
