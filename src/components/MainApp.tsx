@@ -12,13 +12,20 @@ const MainApp: React.FC = () => {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", padding: "20px" }}>
-    <Navbar />
-    <div style={{ flex: 1 }}>
-       <Outlet /> 
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        padding: "20px",
+      }}
+    >
+      {/* <Navbar /> */}
+      <div style={{ flex: 1 }}>
+        <Outlet />
+      </div>
+      <Footer />
     </div>
-    <Footer />
-  </div>
   );
 };
 
