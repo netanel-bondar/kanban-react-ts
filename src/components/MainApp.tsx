@@ -20,7 +20,7 @@ const MainApp: React.FC = () => {
         padding: "20px",
       }}
     >
-      {/* <Navbar /> */}
+      <Navbar />
       <div style={{ flex: 1 }}>
         <Outlet />
       </div>
