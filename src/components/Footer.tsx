@@ -83,7 +83,7 @@ function Footer() {
 
         <Box sx={{ marginTop: "20px" }}>
           <Typography variant="body2" color="inherit">
-            © Netanel Bondar & Tzofiya Rozen. All rights reserved.
+            © Netanel Bondar. All rights reserved.
           </Typography>
         </Box>
       </Container>
