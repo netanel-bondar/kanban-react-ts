@@ -43,7 +43,6 @@ const HomePage: FC = () => {
       id: uuidv4(),
       title: newTitle,
       isStarred: false,
-      // lists: [],
     };
     setBoards([...boards, newBoard]);
     setOpenModal(false);
